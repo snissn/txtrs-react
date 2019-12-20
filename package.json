@@ -1,15 +1,15 @@
 {
-  "name": "simple-reactjs-app",
+  "name": "txtrs-react",
   "version": "0.1.0",
-  "private": true,
-  "homepage": "https://aditya-sridhar.github.io/simple-reactjs-app",
+  "private": false,
+  "homepage": "http://txt.rs/",
   "dependencies": {
     "axios": "^0.18.0",
     "react": "^16.4.1",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.4.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "1.1.4",
+    "react-scripts": "2.0.0",
     "web3": "^1.2.4"
   },
   "scripts": {
@@ -22,5 +22,11 @@
   },
   "devDependencies": {
     "gh-pages": "^1.2.0"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

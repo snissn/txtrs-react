@@ -14,13 +14,14 @@ class App extends Component {
         <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Simple React App</h1>
+          <h1 className="App-title">Txt.rs</h1>
+          <h3 className="App-subtitle">Connect <a href="http://metamask.io" target="_blank">Metamask.io</a> to the goerli testnet</h3>
         </header>
           <Switch>
                 <Route exact path= "/" render={() => (
-                  <Redirect to="/customerlist"/>
+                  <Redirect to="/chat"/>
                 )}/>
-                 <Route exact path='/customerlist' component={Txtrs} />
+                 <Route exact path='/chat' component={Txtrs} />
           </Switch>
       </div>
     </Router>
