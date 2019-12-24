@@ -3,6 +3,7 @@ import Panel from 'react-bootstrap/lib/Panel'
 import Button from 'react-bootstrap/lib/Button'
 import CustomerDetails from './CustomerDetails'
 import SendPublicMessage from "./SendPublicMessage"
+import SendPrivateMessage from './SendPrivateMessage'
 
 import {getContract, contract, web3init} from "./Web3Helper"
 
@@ -43,8 +44,6 @@ export default class Arts extends Component {
       return (<p>Loading data</p>)
     return (<div className="addmargin">
       <div className="col-md-4">
-      </div>
-      <div className="col-md-4">
       <p>
       <SendPublicMessage />
       </p>
@@ -60,6 +59,14 @@ export default class Arts extends Component {
           </Panel>)
         }
         </div>
+      <div className="col-md-4">
+      <p>Send Private Message</p>
+      <SendPrivateMessage />
+      </div>
+      <div className="col-md-4">
+      <p>Incoming Private Messages</p>
+      {/*<ReceivePrivateMessage />*/}
+      </div>
     </div>)
   }
 

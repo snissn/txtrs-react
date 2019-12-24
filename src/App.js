@@ -17,12 +17,7 @@ class App extends Component {
           <h1 className="App-title">Txt.rs</h1>
           <h3 className="App-subtitle">Connect <a href="http://metamask.io" target="_blank">Metamask.io</a> to the goerli testnet</h3>
         </header>
-          <Switch>
-                <Route exact path= "/" render={() => (
-                  <Redirect to="/chat"/>
-                )}/>
-                 <Route exact path='/chat' component={Txtrs} />
-          </Switch>
+       <Route exact path='/' component={Txtrs} />
       </div>
     </Router>
     );
