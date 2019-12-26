@@ -14,7 +14,10 @@ export default class SendPublicMessage extends React.Component {
   mySubmitHandler = async (event) => {
     event.preventDefault();
     var account = await  w3.eth.getAccounts()
-    var send = await contract.methods.initiate_private_message(this.state.address).send();
+    console.log(this.state);
+    var onetime_account = w3.eth.accounts.create(w3.utils.randomHex(32));
+
+    var send = await contract.methods.initiate_private_message(this.state.address, onetime_account.address).send();
     return false;
   }
 
@@ -33,24 +36,24 @@ export default class SendPublicMessage extends React.Component {
   render() {
     return (
       <form onSubmit={this.mySubmitHandler}>
-      <div>
-      <label htmlFor="address">Ethereum Address</label>
+      <p>
+      <label for="address">Ethereum Address</label>
       <input
         type='text'
         name='address'
         placeholder="0xSatoshi"
         onChange={this.myChangeHandler}
       />
-      </div>
-      <div>
-      <label htmlFor="message">Secret Message</label>
+      </p>
+      <p>
+      <label for="message">Secret Message</label>
       <input
         type='text'
         name='message'
         placeholder="Secret Message"
         onChange={this.myChangeHandler}
       />
-      </div>
+      </p>
       <input
         type='submit'
       />

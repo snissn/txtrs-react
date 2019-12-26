@@ -5,6 +5,8 @@
   "homepage": "http://txt.rs/",
   "dependencies": {
     "axios": "^0.18.0",
+    "eth-ecies": "^1.0.3",
+    "idb-keyval": "^3.2.0",
     "react": "^16.4.1",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.4.1",

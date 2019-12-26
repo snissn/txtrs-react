@@ -1,0 +1,293 @@
+[
+{
+"constant": false,
+"inputs": [
+{
+"name": "_encrypted_message",
+"type": "string"
+}
+],
+"name": "alice_send_encrypted_message",
+"outputs": [],
+"payable": false,
+"stateMutability": "nonpayable",
+"type": "function"
+},
+{
+"constant": true,
+"inputs": [],
+"name": "encrypted_message",
+"outputs": [
+{
+"name": "",
+"type": "string"
+}
+],
+"payable": false,
+"stateMutability": "view",
+"type": "function"
+},
+{
+"constant": false,
+"inputs": [
+{
+"name": "_bob_x_public",
+"type": "bytes32"
+},
+{
+"name": "_bob_y_public",
+"type": "bytes32"
+}
+],
+"name": "bob_reply",
+"outputs": [],
+"payable": false,
+"stateMutability": "nonpayable",
+"type": "function"
+},
+{
+"constant": true,
+"inputs": [],
+"name": "bob_finalized",
+"outputs": [
+{
+"name": "",
+"type": "bool"
+}
+],
+"payable": false,
+"stateMutability": "view",
+"type": "function"
+},
+{
+"constant": true,
+"inputs": [],
+"name": "bob_error",
+"outputs": [
+{
+"name": "",
+"type": "bool"
+}
+],
+"payable": false,
+"stateMutability": "view",
+"type": "function"
+},
+{
+"constant": false,
+"inputs": [
+{
+"name": "_error",
+"type": "bool"
+}
+],
+"name": "bob_final",
+"outputs": [],
+"payable": false,
+"stateMutability": "nonpayable",
+"type": "function"
+},
+{
+"constant": true,
+"inputs": [],
+"name": "bob_y_public",
+"outputs": [
+{
+"name": "",
+"type": "bytes32"
+}
+],
+"payable": false,
+"stateMutability": "view",
+"type": "function"
+},
+{
+"constant": true,
+"inputs": [],
+"name": "stage",
+"outputs": [
+{
+"name": "",
+"type": "uint256"
+}
+],
+"payable": false,
+"stateMutability": "view",
+"type": "function"
+},
+{
+"constant": true,
+"inputs": [],
+"name": "bob",
+"outputs": [
+{
+"name": "",
+"type": "address"
+}
+],
+"payable": false,
+"stateMutability": "view",
+"type": "function"
+},
+{
+"constant": true,
+"inputs": [],
+"name": "bob_x_public",
+"outputs": [
+{
+"name": "",
+"type": "bytes32"
+}
+],
+"payable": false,
+"stateMutability": "view",
+"type": "function"
+},
+{
+"constant": true,
+"inputs": [],
+"name": "bob_onetime",
+"outputs": [
+{
+"name": "",
+"type": "address"
+}
+],
+"payable": false,
+"stateMutability": "view",
+"type": "function"
+},
+{
+"constant": true,
+"inputs": [],
+"name": "alice",
+"outputs": [
+{
+"name": "",
+"type": "address"
+}
+],
+"payable": false,
+"stateMutability": "view",
+"type": "function"
+},
+{
+"inputs": [
+{
+"name": "_bob",
+"type": "address"
+}
+],
+"payable": false,
+"stateMutability": "nonpayable",
+"type": "constructor"
+},
+{
+"anonymous": false,
+"inputs": [
+{
+"indexed": false,
+"name": "PrivateMessage",
+"type": "address"
+},
+{
+"indexed": false,
+"name": "alice",
+"type": "address"
+},
+{
+"indexed": false,
+"name": "bob",
+"type": "address"
+}
+],
+"name": "NewPrivateMessage",
+"type": "event"
+},
+{
+"anonymous": false,
+"inputs": [
+{
+"indexed": false,
+"name": "PrivateMessage",
+"type": "address"
+},
+{
+"indexed": false,
+"name": "alice",
+"type": "address"
+},
+{
+"indexed": false,
+"name": "bob",
+"type": "address"
+},
+{
+"indexed": false,
+"name": "bob_x_public",
+"type": "bytes32"
+},
+{
+"indexed": false,
+"name": "bob_y_public",
+"type": "bytes32"
+}
+],
+"name": "NewBobReply",
+"type": "event"
+},
+{
+"anonymous": false,
+"inputs": [
+{
+"indexed": false,
+"name": "PrivateMessage",
+"type": "address"
+},
+{
+"indexed": false,
+"name": "alice",
+"type": "address"
+},
+{
+"indexed": false,
+"name": "bob",
+"type": "address"
+},
+{
+"indexed": false,
+"name": "encrypted_message",
+"type": "string"
+}
+],
+"name": "NewAliceSendEncryptedMessage",
+"type": "event"
+},
+{
+"anonymous": false,
+"inputs": [
+{
+"indexed": false,
+"name": "PrivateMessage",
+"type": "address"
+},
+{
+"indexed": false,
+"name": "alice",
+"type": "address"
+},
+{
+"indexed": false,
+"name": "bob",
+"type": "address"
+},
+{
+"indexed": false,
+"name": "bob_error",
+"type": "bool"
+}
+],
+"name": "NewBobFinal",
+"type": "event"
+}
+]

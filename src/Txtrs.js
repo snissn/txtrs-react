@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/lib/Button'
 import CustomerDetails from './CustomerDetails'
 import SendPublicMessage from "./SendPublicMessage"
 import SendPrivateMessage from './SendPrivateMessage'
+import ReceivedMessages from './ReceivedMessages'
 
 import {getContract, contract, web3init} from "./Web3Helper"
 
@@ -44,9 +45,9 @@ export default class Arts extends Component {
       return (<p>Loading data</p>)
     return (<div className="addmargin">
       <div className="col-md-4">
-      <p>
+      <div>
       <SendPublicMessage />
-      </p>
+      </div>
         {
 
           this.state.publicMessages.data.map(message => <Panel bsStyle="info" key={message.id} className="centeralign">
@@ -65,7 +66,7 @@ export default class Arts extends Component {
       </div>
       <div className="col-md-4">
       <p>Incoming Private Messages</p>
-      {/*<ReceivePrivateMessage />*/}
+      <ReceivedMessages />
       </div>
     </div>)
   }
