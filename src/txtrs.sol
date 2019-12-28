@@ -25,61 +25,6 @@ contract PublicMessage{
 }
 
 
-contract PrivateMessageV1{
-
-    string public encrypted_message;
-    address public alice;
-    address public alice_onetime;
-    string public alice_onetime_encrypted_secret;
-    address public bob;
-    address public bob_onetime;
-    string public bob_onetime_encrypted_secret;
-    uint256 public stage;
-
-    bool public bob_finalized;
-    bool public bob_error;
-
-    event NewPrivateMessage(address PrivateMessage, address alice, address bob, address alice_onetime); 
-    function PrivateMessage(address _bob, address _alice_onetime){ // initiated by alice
-        //privte messages are initialized by alice along side bob's address and her one time address she created
-        require(stage==0);
-        stage=1;
-
-        bob=_bob;
-        alice = msg.sender;
-        alice_onetime=_alice_onetime;
-        require(alice!=bob);
-        emit NewPrivateMessage(address(this), alice, bob, alice_onetime);
-    }
-    event NewBobReply(address PrivateMessage,address alice, address bob, address bob_onetime, string bob_onetime_encrypted_secret);
-    function bob_reply(address _bob_onetime, string _bob_onetime_encrypted_secret){
-        require(stage==1);
-        stage=2;
-        require(msg.sender == bob);
-        bob_onetime=_bob_onetime;
-        bob_onetime_encrypted_secret=_bob_onetime_encrypted_secret;
-        emit NewBobReply(address(this),alice, bob, bob_onetime, bob_onetime_encrypted_secret);
-    }
-    event NewAliceSendEncryptedMessage(address PrivateMessage, address alice, address bob, string alice_onetime_encrypted_secret, string encrypted_message);
-    function alice_send_encrypted_message(string _alice_onetime_encrypted_secret, string _encrypted_message){
-        require(stage==2);
-        stage=3;
-        require(msg.sender == alice);
-        alice_onetime_encrypted_secret=_alice_onetime_encrypted_secret;
-        encrypted_message=_encrypted_message;
-        emit NewAliceSendEncryptedMessage(address(this), alice, bob, alice_onetime_encrypted_secret, encrypted_message);
-    }
-    event NewBobFinal(address PrivateMessage, address alice, address bob, bool bob_error);
-    function bob_final(bool _error){
-        require(stage==3);
-        stage=4;
-        require(msg.sender == bob);
-        bob_finalized=true;
-        bob_error=_error;
-        emit NewBobFinal(address(this), alice, bob, bob_error);
-    }
-
-}
 
 contract PrivateMessage{
 
@@ -95,13 +40,13 @@ contract PrivateMessage{
     bool public bob_error;
 
     event NewPrivateMessage(address PrivateMessage, address alice, address bob); 
-    function PrivateMessage(address _bob){ // initiated by alice
+    function PrivateMessage(address _alice, address _bob){ // initiated by alice
         //privte messages are initialized by alice along side bob's address and her one time address she created
         require(stage==0);
         require(msg.sender != _bob);
         stage=1;
         bob=_bob;
-        alice = msg.sender;
+        alice = _alice;
         emit NewPrivateMessage(address(this), alice, bob);
     }
     event NewBobReply(address PrivateMessage,address alice, address bob, bytes32 bob_x_public, bytes32 bob_y_public);
@@ -190,8 +135,8 @@ contract Txtrs {
     event NewTxtr(address indexed _from);
     
     function initiate_private_message(address bob ) returns (address){
-        address  message =  address( new PrivateMessage ({_bob:bob}));
         address alice = msg.sender;
+        address  message =  address( new PrivateMessage ({_alice:alice,_bob:bob}));
         if(!txtrs[alice].exists){
             create_txtr_on_receive(alice);
         }
@@ -285,6 +230,17 @@ contract Txtrs {
     function get_received_message(address addr, uint256 index) public returns (address) {
         return address(txtrs[addr].all_received_messages[index]);
     }    
+
+
+    function get_sent_messages_total(address addr) public returns (uint256) {
+        return txtrs[addr].all_sent_messages.length;
+    }
+    
+    function get_sent_message(address addr, uint256 index) public returns (address) {
+        return address(txtrs[addr].all_sent_messages[index]);
+    }    
+
+
     
     
     function get_one_message(uint256 index, address addr) public returns (string) {

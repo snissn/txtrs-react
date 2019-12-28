@@ -1,3 +1,5 @@
+
+
 [
 {
 "constant": false,
@@ -48,6 +50,29 @@
 "type": "address"
 }
 ],
+"name": "get_one_message",
+"outputs": [
+{
+"name": "",
+"type": "string"
+}
+],
+"payable": false,
+"stateMutability": "nonpayable",
+"type": "function"
+},
+{
+"constant": false,
+"inputs": [
+{
+"name": "index",
+"type": "uint256"
+},
+{
+"name": "addr",
+"type": "address"
+}
+],
 "name": "get_one_message_recipient",
 "outputs": [
 {
@@ -63,11 +88,15 @@
 "constant": false,
 "inputs": [
 {
-"name": "message_text",
-"type": "string"
+"name": "index",
+"type": "uint256"
+},
+{
+"name": "addr",
+"type": "address"
 }
 ],
-"name": "send_public_message",
+"name": "get_one_message_sender",
 "outputs": [
 {
 "name": "",
@@ -105,11 +134,11 @@
 "constant": false,
 "inputs": [
 {
-"name": "bob",
-"type": "address"
+"name": "index",
+"type": "uint256"
 }
 ],
-"name": "initiate_private_message",
+"name": "get_public_message_address",
 "outputs": [
 {
 "name": "",
@@ -122,17 +151,50 @@
 },
 {
 "constant": false,
-"inputs": [
-{
-"name": "addr",
-"type": "address"
-}
-],
-"name": "get_sent_user_message_total",
+"inputs": [],
+"name": "get_public_message_count",
 "outputs": [
 {
 "name": "",
 "type": "uint256"
+}
+],
+"payable": false,
+"stateMutability": "nonpayable",
+"type": "function"
+},
+{
+"constant": false,
+"inputs": [
+{
+"name": "index",
+"type": "uint256"
+}
+],
+"name": "get_public_message_message",
+"outputs": [
+{
+"name": "",
+"type": "string"
+}
+],
+"payable": false,
+"stateMutability": "nonpayable",
+"type": "function"
+},
+{
+"constant": false,
+"inputs": [
+{
+"name": "index",
+"type": "uint256"
+}
+],
+"name": "get_public_message_sender",
+"outputs": [
+{
+"name": "",
+"type": "address"
 }
 ],
 "payable": false,
@@ -185,11 +247,15 @@
 "constant": false,
 "inputs": [
 {
+"name": "addr",
+"type": "address"
+},
+{
 "name": "index",
 "type": "uint256"
 }
 ],
-"name": "get_public_message_address",
+"name": "get_sent_message",
 "outputs": [
 {
 "name": "",
@@ -203,20 +269,16 @@
 {
 "constant": false,
 "inputs": [
-{
-"name": "index",
-"type": "uint256"
-},
 {
 "name": "addr",
 "type": "address"
 }
 ],
-"name": "get_one_message",
+"name": "get_sent_messages_total",
 "outputs": [
 {
 "name": "",
-"type": "string"
+"type": "uint256"
 }
 ],
 "payable": false,
@@ -224,45 +286,33 @@
 "type": "function"
 },
 {
-"constant": true,
-"inputs": [
-{
-"name": "",
-"type": "address"
-}
-],
-"name": "txtrs",
-"outputs": [
-{
-"name": "name",
-"type": "bytes32"
-},
-{
-"name": "owner",
-"type": "address"
-},
-{
-"name": "exists",
-"type": "bool"
-}
-],
-"payable": false,
-"stateMutability": "view",
-"type": "function"
-},
-{
 "constant": false,
 "inputs": [
-{
-"name": "index",
-"type": "uint256"
-},
 {
 "name": "addr",
 "type": "address"
 }
 ],
-"name": "get_one_message_sender",
+"name": "get_sent_user_message_total",
+"outputs": [
+{
+"name": "",
+"type": "uint256"
+}
+],
+"payable": false,
+"stateMutability": "nonpayable",
+"type": "function"
+},
+{
+"constant": false,
+"inputs": [
+{
+"name": "bob",
+"type": "address"
+}
+],
+"name": "initiate_private_message",
 "outputs": [
 {
 "name": "",
@@ -277,48 +327,15 @@
 "constant": false,
 "inputs": [
 {
-"name": "index",
-"type": "uint256"
-}
-],
-"name": "get_public_message_sender",
-"outputs": [
-{
-"name": "",
-"type": "address"
-}
-],
-"payable": false,
-"stateMutability": "nonpayable",
-"type": "function"
-},
-{
-"constant": false,
-"inputs": [
-{
-"name": "index",
-"type": "uint256"
-}
-],
-"name": "get_public_message_message",
-"outputs": [
-{
-"name": "",
+"name": "message_text",
 "type": "string"
 }
 ],
-"payable": false,
-"stateMutability": "nonpayable",
-"type": "function"
-},
-{
-"constant": false,
-"inputs": [],
-"name": "get_public_message_count",
+"name": "send_public_message",
 "outputs": [
 {
 "name": "",
-"type": "uint256"
+"type": "address"
 }
 ],
 "payable": false,
@@ -358,5 +375,32 @@
 ],
 "name": "NewTxtr",
 "type": "event"
+},
+{
+"constant": true,
+"inputs": [
+{
+"name": "",
+"type": "address"
+}
+],
+"name": "txtrs",
+"outputs": [
+{
+"name": "name",
+"type": "bytes32"
+},
+{
+"name": "owner",
+"type": "address"
+},
+{
+"name": "exists",
+"type": "bool"
+}
+],
+"payable": false,
+"stateMutability": "view",
+"type": "function"
 }
 ]
