@@ -1,7 +1,6 @@
 import Web3 from 'web3'
 
 
-import ecies from 'eth-ecies'
 import abi from './abi_txtrs.json'
 import abi_private_message from './abi_private_message.json'
 console.log(abi_private_message);

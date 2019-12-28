@@ -1,4 +1,14 @@
 
+latest todo:
+
+yahoo we have the encrypted message in javascript!
+we need to send it and then have bob read it
+
+then we need to do key management for bob and follow the contract for new events to update things!
+
+
+
+
 create a list of all users that are online (how? require user check in every minute ? 
 create sub keys that are registered that you can use to automatically send keep alive pings?)
 
