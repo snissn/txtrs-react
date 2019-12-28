@@ -9,7 +9,7 @@ console.log(abi_private_message);
 const EC = require("elliptic").ec;
 const ec = new EC("secp256k1");
 export var w3 = new Web3(window.ethereum);
-var contract_address = "0x103A60f993380942f6CC167d2fC207f1f5E75568";
+var contract_address = "0x30bd9D63482bAcf849859A71863DbBe12B079Cd2";
   
 export var users_address;
 
