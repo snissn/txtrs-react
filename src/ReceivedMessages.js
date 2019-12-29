@@ -1,8 +1,9 @@
 import React from 'react';
 import Panel from 'react-bootstrap/lib/Panel'
 import ecies from 'eth-ecies'
-import {getContract, contract, w3, users_address, getPrivateMessage} from "./Web3Helper"
+import {getContract, contract, w3, users_address, getPrivateMessage, getBlockNumber} from "./Web3Helper"
 import ReactDOM from 'react-dom';
+
 
 const EC = require("elliptic").ec;
 
@@ -11,65 +12,107 @@ export default class ReceivedMessages extends React.Component {
     super(props);
     this.state = {
       receivedMessages: [],
-      errormessage: ''
+      errormessage: '',
+      keys:{}
     };
   }
   
-  async componentDidMount() {
+  async fetch(){
     const response = await this.getPrivateMessages()
-    console.log("response",response)
     this.setState({receivedMessages: response})
+  }
+  async componentDidMount() {
+    await this.setUpListeners();
+    await this.fetch();
   }
   async private_message_bob_stage_2(private_message){
     var bob_reply = {}
     var privateKey = w3.utils.randomHex(32)
     var onetime_account = w3.eth.accounts.create(privateKey);
-
-
-const ec = new EC("secp256k1");
-
-
-
-
+    const ec = new EC("secp256k1");
     const ephemPrivKey = ec.keyFromPrivate(privateKey);
     const ephemPubKey = ephemPrivKey.getPublic();
     const ephemPubKeyEncoded = Buffer.from(ephemPubKey.encode());
+
+
+
     var bob_x = ephemPubKeyEncoded.slice(1,33)
     bob_reply['bob_x'] = bob_x
     var bob_y = ephemPubKeyEncoded.slice(33, 65)
     bob_reply['bob_y'] = bob_y;
+    this.state.keys[bob_x+bob_y]=ephemPrivKey
+    
 
     var accounts = await  w3.eth.getAccounts()
     await window.ethereum.enable()
     var send = await private_message.methods.bob_reply(bob_x,bob_y).send({from:accounts[0]})
-    //post this to blockchain 
+  }
 
-    //save private key in indexedb
+  async setUpPrivateMessageListeners(private_message){
+    var block_number = await getBlockNumber()
+    var that = this;
+    private_message.events.allEvents("allEvents",{
+    
+        fromBlock: block_number,
+        toBlock: 'latest'
+    },async function(err,data){
+      await that.fetch();
+    })    
+  }
+  async setUpListeners(){
+    var block_number = await getBlockNumber()
+    var that = this;
+    contract.events.allEvents("allEvents",{
+    
+        fromBlock: block_number,
+        toBlock: 'latest'
 
+    },async function(err,data){
+      await that.fetch();
+    });
   }
 
   async getPrivateMessages() {
+
+      //set up listeners for new received messages
+
+
+
+
+
     var messages_count = await contract.methods.get_received_messages_total(users_address).call();
     var messages = []
     for(var index = messages_count-1; index >= 0 ;index-- ){
       var private_message_addr = await contract.methods.get_received_message(users_address,index).call()
 			var private_message = getPrivateMessage(private_message_addr)
-      this.private_message_bob_stage_2(private_message);
-			var stage = await private_message.methods.stage().call()
-      if (stage == 1){
-        this.private_message_bob_stage_2(private_message);
-      }
-      if(stage == 3){
-        alert("decrypt using bob key");
-        //decrypt using bob key
-      }
 
+
+      this.setUpPrivateMessageListeners(private_message)
+
+
+			var stage = await private_message.methods.stage().call()
+      var plaintext=''
 			var stage = await private_message.methods.stage().call()
 			var alice = await private_message.methods.alice().call()
 			var bob = await private_message.methods.bob().call()
-      var message = {stage:stage,alice:alice,bob:bob, id:index, address: private_message_addr}
+			var bob_x = await private_message.methods.bob_x_public().call()
+			var bob_y = await private_message.methods.bob_y_public().call()
+      var encrypted_message = await private_message.methods.encrypted_message().call()
+
+      if (stage == "1"){
+        this.private_message_bob_stage_2(private_message);
+      }
+      if(stage == "3"){
+        //decrypt using bob key
+        var ethPrivKey = this.state.keys[bob_x+bob_y];
+        if(ethPrivKey){
+          plaintext = ecies.decrypt(ethPrivKey, encrypted_message);
+        }
+
+      }
+
+      var message = {plaintext:plaintext,stage:stage,alice:alice,bob:bob, id:index, address: private_message_addr, encrypted_message:encrypted_message, bob_x:bob_x,bob_y:bob_y}
       messages.push(message);
-      console.log('messages',messages);
 
       //var sender = await contract.methods.get_public_message_sender(index).call()
     }
@@ -107,14 +150,15 @@ const ec = new EC("secp256k1");
       <p>hi</p>
         { 
 
-				this.state.receivedMessages.map(message => <Panel bsStyle="info" key={message.id} className="centeralign">
+				this.state.receivedMessages.map(message => 
+          <Panel bsStyle="info" key={message.id} className="centeralign">
             <Panel.Heading>
               <Panel.Title componentClass="h3">
 										{(() => {
 											switch (message.stage) {
 												case "1":   return "Key request sent for One Time Use Public Keys.";
 												case "2": return "Waiting on recieving encrypted message ";
-												case "3":  return "Encrypted Message received!" ;
+												case "3":  return "Encrypted Message received" ;
 												case "4":  return "Encrypted Message received and status = Read";
 												default:      return "unknown stage ";
 											}
@@ -126,11 +170,26 @@ const ec = new EC("secp256k1");
 									{message.alice}
 
 							</p>
+							<p>
+									{message.encrypted_message}
+
+							</p>
             </Panel.Body>
           </Panel>)
         }
 </div>
     );
+  }
+
+  decrypt(message){
+
+    var ethPrivKey = this.state.keys[message.bob_x+message.bob_y];
+    let plaintext = ecies.decrypt(ethPrivKey, message.encrypted_message);
+      return (
+      <p>
+        {plaintext}
+      </p>
+    )
   }
 }
 

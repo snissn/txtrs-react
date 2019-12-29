@@ -1,10 +1,22 @@
 
 latest todo:
+almost basically have it all working!
+need to refactor the Events to be inside the txtrs contract, not in the separate Private Messages contract - makes the event listener way simpler
+Need to set up all of the proper event handler listeners
+need to make sure the public key in receive messages is working properly so decryption actually happens
+add in the final step
+
+
+
+
+
+latest todo:
 
 yahoo we have the encrypted message in javascript!
 we need to send it and then have bob read it
 
 then we need to do key management for bob and follow the contract for new events to update things!
+
 
 
 

@@ -38,6 +38,9 @@ export function getContract(){
 export function getPrivateMessage(addr){
 	return  new w3.eth.Contract(abi_private_message, addr);
 }
+export function getBlockNumber(addr){
+	return  new w3.eth.getBlockNumber();
+}
 
 export async function web3init(){
   await window.ethereum.enable();//'https://rpc.goerli.mudit.blog/');

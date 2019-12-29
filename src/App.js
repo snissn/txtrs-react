@@ -13,7 +13,6 @@ class App extends Component {
       <Router basename={process.env.PUBLIC_URL}>
         <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Txt.rs</h1>
           <h3 className="App-subtitle">Connect <a href="http://metamask.io" target="_blank">Metamask.io</a> to the goerli testnet</h3>
         </header>

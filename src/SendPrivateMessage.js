@@ -41,6 +41,7 @@ export default class SendPublicMessage extends React.Component {
         message['bob_x']=bob_x
         message['bob_y']=bob_y
       }
+      message['address']=private_message_addr
       if(stage==1){
       }
       messages.push(message);

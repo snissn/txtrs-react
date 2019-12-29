@@ -1,4 +1,5 @@
 import React from 'react';
+import Panel from 'react-bootstrap/lib/Panel'
 
 import {getContract, contract, w3} from "./Web3Helper"
 import ReactDOM from 'react-dom';
@@ -14,10 +15,8 @@ export default class SendPublicMessage extends React.Component {
   mySubmitHandler = async (event) => {
     event.preventDefault();
     var account = await  w3.eth.getAccounts()
-    alert(account+"You are submitting " + this.state.message);
 
     var send = await contract.methods.send_public_message(this.state.message).send();//, {from:account}).send({from:account, value:0})
-    alert(send);
     return false;
   }
 
@@ -35,18 +34,28 @@ export default class SendPublicMessage extends React.Component {
   }
   render() {
     return (
-      <form onSubmit={this.mySubmitHandler}>
-      <input
-        type='text'
-        name='message'
-        onChange={this.myChangeHandler}
-      />
-      <input
-        type='submit'
-      />
- 
-      {this.state.errormessage}
-      </form>
+          <Panel bsStyle="info" className="centeralign">
+            <Panel.Heading>
+              <Panel.Title componentClass="h3">
+              Send Public Message
+
+						</Panel.Title>
+            </Panel.Heading>
+            <Panel.Body>
+              <form onSubmit={this.mySubmitHandler}>
+              <input
+                type='text'
+                name='message'
+                onChange={this.myChangeHandler}
+              />
+              <input
+                type='submit'
+              />
+         
+              {this.state.errormessage}
+              </form>
+            </Panel.Body>
+          </Panel>
     );
   }
 }

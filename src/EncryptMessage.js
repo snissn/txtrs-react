@@ -19,15 +19,11 @@ export default class EncryptMessage extends React.Component {
   }
   onSendSecretMessage = async (event) => {
     event.preventDefault();
-    console.log(this.state.message);
-    console.log(this.props.message.bob_x)
+    var private_message = getPrivateMessage(this.props.message.address)
     var public_key = Buffer.from(this.props.message.bob_x.slice(2)+this.props.message.bob_y.slice(2),'hex');
-    alert(public_key.toString());
-    console.log(this.props.message.bob_y)
     var account = await  w3.eth.getAccounts()
     var encrypt = ecies.encrypt(public_key, this.state.message);
-    console.log('encrypted message is', encrypt);
-    //var send = await contract.methods.initiate_private_message(this.state.address).send();
+    var send = await private_message.methods.alice_send_encrypted_message(encrypt.toString()).send({from:account[0]});
     return false;
   }
 
@@ -61,7 +57,6 @@ export default class EncryptMessage extends React.Component {
 						</Panel.Title>
             </Panel.Heading>
             <Panel.Body>
-							<p>
                   <p>
 									{message.bob}
                   </p>
@@ -73,25 +68,31 @@ export default class EncryptMessage extends React.Component {
                   </p>
 
 
-                  <div>
-                    <form onSubmit={this.onSendSecretMessage}>
-                      <label htmlFor="message">Secret Message</label>
-                      <input
-                        type='text'
-                        name='message'
-                        placeholder="Secret Message"
-                        onChange={this.myChangeHandler}
-                      />
-                      <input
-                        type='submit'
-                      />
-                    </form>
-                  </div>
+        {this.renderForm(message)}
 
-							</p>
             </Panel.Body>
           </Panel>
           )
+  }
+  renderForm(message){
+    if(message.stage=='2'){
+      return (
+        <form onSubmit={this.onSendSecretMessage}>
+          <label htmlFor="message">Secret Message</label>
+          <input
+            type='text'
+            name='message'
+            placeholder="Secret Message"
+            onChange={this.myChangeHandler}
+          />
+          <input
+            type='submit'
+          />
+        </form>
+      )
+    }else{
+      return (<span>Message Sent</span>)
+    }
   }
 }
 
