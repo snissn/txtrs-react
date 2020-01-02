@@ -20,10 +20,10 @@ export default class EncryptMessage extends React.Component {
   onSendSecretMessage = async (event) => {
     event.preventDefault();
     var private_message = getPrivateMessage(this.props.message.address)
-    var public_key = Buffer.from(this.props.message.bob_x.slice(2)+this.props.message.bob_y.slice(2),'hex');
+    var public_key = Buffer.from("04"+this.props.message.bob_x.slice(2)+this.props.message.bob_y.slice(2),'hex');
     var account = await  w3.eth.getAccounts()
     var encrypt = ecies.encrypt(public_key, this.state.message);
-    var send = await private_message.methods.alice_send_encrypted_message(encrypt.toString()).send({from:account[0]});
+    var send = await private_message.methods.alice_send_encrypted_message(encrypt.toString()).send({gasPrice:0,from:account[0]});
     return false;
   }
 

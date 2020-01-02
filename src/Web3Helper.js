@@ -8,29 +8,13 @@ console.log(abi_private_message);
 const EC = require("elliptic").ec;
 const ec = new EC("secp256k1");
 export var w3 = new Web3(window.ethereum);
-var contract_address = "0x30bd9D63482bAcf849859A71863DbBe12B079Cd2";
+var contract_address = "0x97afdbfc54ff0ca438fdf469b6024ed6c41b40b7";
   
 export var users_address;
 
 window.w3 = w3;
 
 export const  contract =  new w3.eth.Contract(abi, contract_address);
-
-var privateKey = w3.utils.randomHex(32)
-var onetime_account = w3.eth.accounts.create(privateKey);
-console.log('onetimeaccount',onetime_account.privateKey)
-const ephemPrivKey = ec.keyFromPrivate(privateKey);
-const ephemPubKey = ephemPrivKey.getPublic();
-console.log('keys',ephemPrivKey, ephemPubKey);
-const ephemPubKeyEncoded = Buffer.from(ephemPubKey.encode());
-
-var bob_x = ephemPubKeyEncoded.slice(1,33)
-var bob_y = ephemPubKeyEncoded.slice(33, 65)
-console.log('pubkey',ephemPubKeyEncoded) // 65 bytes ship to blockchain for Bob's key
-console.log('bob keys',bob_x, bob_y) // 65 bytes ship to blockchain for Bob's key
-
-
-
 
 export function getContract(){
   return contract; 

@@ -1,36 +1,47 @@
 import React from 'react';
 import Panel from 'react-bootstrap/lib/Panel'
-import {getContract, contract, w3, users_address, getPrivateMessage} from "./Web3Helper"
+import {getContract, contract, w3, users_address, getPrivateMessage, getBlockNumber} from "./Web3Helper"
 import EncryptMessage from './EncryptMessage'
 
 import ReactDOM from 'react-dom';
 
 export default class SendPublicMessage extends React.Component {
+  async setUpListeners(){
+    var block_number = await getBlockNumber()
+    var that = this;
+    contract.events.allEvents("allEvents",{
+    
+        fromBlock: block_number,
+        toBlock: 'latest'
+
+    },async function(err,data){
+      console.log("LOGGING THAT EVENT PICKED UP NEWS")
+      await that.getSentMessages();
+    });
+  }
 	constructor(props) {
     super(props);
     this.state = {
       message: '',
       sentMessages : [],
-      errormessage: ''
+      errormessage: '',
+      account:''
     };
   }
   async componentDidMount() {
 		console.log("start send private msg");
+    await this.setUpListeners();
     const response = await this.getSentMessages()
     console.log('send messages response is ',response);
-    this.setState({sentMessages: response})
   }
   async getSentMessages() {
-	console.log("get prv msg addr", users_address);
+    var account = await  w3.eth.getAccounts()
+    this.state.account = account;
     var messages_count = await contract.methods.get_sent_messages_total(users_address).call();
-    console.log("private received messages count", messages_count);
     var messages = []
     for(var index = messages_count-1; index >= 0 ;index-- ){
-      console.log("index is", index)
       var private_message_addr = await contract.methods.get_sent_message(users_address,index).call()
 			var private_message = getPrivateMessage(private_message_addr)
-			console.log("private messsage is", private_message);
-      console.log("trying to call stage lol");
 			var stage = await private_message.methods.stage().call()
 			var alice = await private_message.methods.alice().call()
 			var bob = await private_message.methods.bob().call()
@@ -42,21 +53,18 @@ export default class SendPublicMessage extends React.Component {
         message['bob_y']=bob_y
       }
       message['address']=private_message_addr
+      message['id'] = index;
       if(stage==1){
       }
       messages.push(message);
-      console.log(private_message, 'is at stage', stage);
-      console.log(private_message, 'is at stage', stage);
-
-      //var sender = await contract.methods.get_public_message_sender(index).call()
-      //messages.push({message:message, sender:sender, id:index})
     }
+    this.setState({sentMessages: messages})
     return messages;
   };
   mySubmitHandler = async (event) => {
     event.preventDefault();
     var account = await  w3.eth.getAccounts()
-    var send = await contract.methods.initiate_private_message(this.state.address).send();
+    var send = await contract.methods.pm_init(this.state.address).send({gasPrice:0,from:account[0]});
     return false;
   }
 
@@ -75,6 +83,9 @@ export default class SendPublicMessage extends React.Component {
   render() {
     return (
     <div>
+    <p>
+    hi {this.state.account}
+    </p>
       <form onSubmit={this.mySubmitHandler}>
       <div>
       <label htmlFor="address">Ethereum Address</label>
@@ -93,7 +104,7 @@ export default class SendPublicMessage extends React.Component {
       </form>
         <div>
         { this.state.sentMessages.map(message => 
-      <EncryptMessage message={message}/>
+      <EncryptMessage message={message} key={message.id}/>
           
           )
         }

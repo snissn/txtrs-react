@@ -2,7 +2,13 @@ import React from 'react';
 import Panel from 'react-bootstrap/lib/Panel'
 import ecies from 'eth-ecies'
 import {getContract, contract, w3, users_address, getPrivateMessage, getBlockNumber} from "./Web3Helper"
-import ReactDOM from 'react-dom';
+
+
+
+
+
+window.db = {}
+window.rec_state = {}
 
 
 const EC = require("elliptic").ec;
@@ -23,51 +29,64 @@ export default class ReceivedMessages extends React.Component {
   }
   async componentDidMount() {
     await this.setUpListeners();
+    console.log("state",this.state);
     await this.fetch();
+    window.rec_state = this.state
+
+
+
+    //scratchbelow
+    var privateKey = w3.utils.randomHex(32)
+    const ec = new EC("secp256k1");
+    const ephemPrivKey = ec.keyFromPrivate(privateKey);
+    const ephemPubKey = ephemPrivKey.getPublic();
+    const ephemPubKeyEncoded = Buffer.from(ephemPubKey.encode()).toString('hex');
+
+    var bob_x = ephemPubKey.x.toString('hex');
+    var bob_y = ephemPubKey.y.toString('hex');
+
+
+    //todo bob_x wrong
+    //var pub_key_readable = (Buffer.from("0x04"+bob_x+bob_y,'hex')).toString('hex')
+
   }
   async private_message_bob_stage_2(private_message){
     var bob_reply = {}
+    console.log("state2",this.state);
     var privateKey = w3.utils.randomHex(32)
-    var onetime_account = w3.eth.accounts.create(privateKey);
     const ec = new EC("secp256k1");
     const ephemPrivKey = ec.keyFromPrivate(privateKey);
     const ephemPubKey = ephemPrivKey.getPublic();
     const ephemPubKeyEncoded = Buffer.from(ephemPubKey.encode());
+    const pub_key_readable = Buffer.from(ephemPubKey.encode()).toString('hex')
 
-
-
-    var bob_x = ephemPubKeyEncoded.slice(1,33)
+    var bob_x = ephemPubKey.x.toString('hex');
+    var bob_y = ephemPubKey.y.toString('hex');
     bob_reply['bob_x'] = bob_x
-    var bob_y = ephemPubKeyEncoded.slice(33, 65)
     bob_reply['bob_y'] = bob_y;
-    this.state.keys[bob_x+bob_y]=ephemPrivKey
+
+    this.state.keys[pub_key_readable]=privateKey
+    window.db[pub_key_readable] = privateKey
+    console.log('window.db',window.db);
+    window.localStorage.setItem(pub_key_readable, privateKey);
     
 
     var accounts = await  w3.eth.getAccounts()
     await window.ethereum.enable()
-    var send = await private_message.methods.bob_reply(bob_x,bob_y).send({from:accounts[0]})
+    var send = await private_message.methods.bob_reply('0x'+bob_x,'0x'+bob_y).send({gasPrice:0,from:accounts[0]})
+    console.log("state3",this.state);
+
   }
 
-  async setUpPrivateMessageListeners(private_message){
-    var block_number = await getBlockNumber()
-    var that = this;
-    private_message.events.allEvents("allEvents",{
-    
-        fromBlock: block_number,
-        toBlock: 'latest'
-    },async function(err,data){
-      await that.fetch();
-    })    
-  }
   async setUpListeners(){
     var block_number = await getBlockNumber()
     var that = this;
     contract.events.allEvents("allEvents",{
     
-        fromBlock: block_number,
-        toBlock: 'latest'
+        fromBlock: 'latest'
 
     },async function(err,data){
+      console.log("event", data);
       await that.fetch();
     });
   }
@@ -87,7 +106,6 @@ export default class ReceivedMessages extends React.Component {
 			var private_message = getPrivateMessage(private_message_addr)
 
 
-      this.setUpPrivateMessageListeners(private_message)
 
 
 			var stage = await private_message.methods.stage().call()
@@ -103,10 +121,19 @@ export default class ReceivedMessages extends React.Component {
         this.private_message_bob_stage_2(private_message);
       }
       if(stage == "3"){
-        //decrypt using bob key
-        var ethPrivKey = this.state.keys[bob_x+bob_y];
+        //decrypt using bob eey
+        const ec = new EC("secp256k1");
+        var pub_key_readable = Buffer.from("04"+bob_x.slice(2)+bob_y.slice(2),'hex').toString("hex");
+        var ethPrivKey = window.localStorage[pub_key_readable];
+        console.log("pub_key_readable",pub_key_readable)
+        console.log("ethPrivKey",ethPrivKey)
+        console.log("encrypted_message",encrypted_message)
         if(ethPrivKey){
-          plaintext = ecies.decrypt(ethPrivKey, encrypted_message);
+          debugger;
+
+          //plaintext = ecies.decrypt(ec.keyFromPrivate(ethPrivKey.slice(2)) , encrypted_message);
+
+          console.log('plaintext2',plaintext);
         }
 
       }

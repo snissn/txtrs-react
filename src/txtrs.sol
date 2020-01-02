@@ -133,8 +133,16 @@ contract Txtrs {
 
     event NewPublicMessage(address message_addr, string message, address indexed _from);
     event NewTxtr(address indexed _from);
+
+
+    //private message events:
+
+    event NewPrivateMessage(address PrivateMessage, address alice, address bob); 
+    event NewBobReply2(address PrivateMessage,address alice, address bob, bytes32 bob_x_public, bytes32 bob_y_public);
+    event NewAliceSendEncryptedMessage(address PrivateMessage, address alice, address bob, string encrypted_message);
+    event NewBobFinal(address PrivateMessage, address alice, address bob, bool bob_error);
     
-    function initiate_private_message(address bob ) returns (address){
+    function pm_init(address bob ) returns (address){
         address alice = msg.sender;
         address  message =  address( new PrivateMessage ({_alice:alice,_bob:bob}));
         if(!txtrs[alice].exists){
@@ -145,8 +153,26 @@ contract Txtrs {
             create_txtr_on_receive(bob);
         }
         txtrs[bob].all_received_messages.push(message);
+        emit NewPrivateMessage(message, alice, bob);
         return message;
     }
+    function pm_bob_reply(address pm, bytes32 _bob_x_public, bytes32 _bob_y_public){
+      PrivateMessage my_pm = PrivateMessage(pm);
+      my_pm.bob_reply(_bob_x_public, _bob_y_public);
+      emit NewBobReply2(pm,my_pm.alice(), my_pm.bob(), _bob_x_public, _bob_y_public);
+    }
+    function pm_alice_send_encrypted_message(address pm, string _encrypted_message){
+      PrivateMessage my_pm = PrivateMessage(pm);
+      my_pm.alice_send_encrypted_message(_encrypted_message);
+      emit NewAliceSendEncryptedMessage(pm, my_pm.alice(), my_pm.bob(), _encrypted_message);
+    }
+    function pm_bob_final(address pm, bool _error){
+      PrivateMessage my_pm = PrivateMessage(pm);
+      my_pm.bob_final(_error);
+      emit NewBobFinal(pm, my_pm.alice(), my_pm.bob(), _error);
+    }
+
+
 
     function send_public_message(string message_text) returns (address){
         
@@ -269,3 +295,4 @@ contract Txtrs {
     }
 
 }
+

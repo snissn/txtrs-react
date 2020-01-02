@@ -1,5 +1,3 @@
-
-
 [
 {
 "constant": false,
@@ -308,11 +306,69 @@
 "constant": false,
 "inputs": [
 {
+"name": "pm",
+"type": "address"
+},
+{
+"name": "_encrypted_message",
+"type": "string"
+}
+],
+"name": "pm_alice_send_encrypted_message",
+"outputs": [],
+"payable": false,
+"stateMutability": "nonpayable",
+"type": "function"
+},
+{
+"constant": false,
+"inputs": [
+{
+"name": "pm",
+"type": "address"
+},
+{
+"name": "_error",
+"type": "bool"
+}
+],
+"name": "pm_bob_final",
+"outputs": [],
+"payable": false,
+"stateMutability": "nonpayable",
+"type": "function"
+},
+{
+"constant": false,
+"inputs": [
+{
+"name": "pm",
+"type": "address"
+},
+{
+"name": "_bob_x_public",
+"type": "bytes32"
+},
+{
+"name": "_bob_y_public",
+"type": "bytes32"
+}
+],
+"name": "pm_bob_reply",
+"outputs": [],
+"payable": false,
+"stateMutability": "nonpayable",
+"type": "function"
+},
+{
+"constant": false,
+"inputs": [
+{
 "name": "bob",
 "type": "address"
 }
 ],
-"name": "initiate_private_message",
+"name": "pm_init",
 "outputs": [
 {
 "name": "",
@@ -374,6 +430,114 @@
 }
 ],
 "name": "NewTxtr",
+"type": "event"
+},
+{
+"anonymous": false,
+"inputs": [
+{
+"indexed": false,
+"name": "PrivateMessage",
+"type": "address"
+},
+{
+"indexed": false,
+"name": "alice",
+"type": "address"
+},
+{
+"indexed": false,
+"name": "bob",
+"type": "address"
+}
+],
+"name": "NewPrivateMessage",
+"type": "event"
+},
+{
+"anonymous": false,
+"inputs": [
+{
+"indexed": false,
+"name": "PrivateMessage",
+"type": "address"
+},
+{
+"indexed": false,
+"name": "alice",
+"type": "address"
+},
+{
+"indexed": false,
+"name": "bob",
+"type": "address"
+},
+{
+"indexed": false,
+"name": "bob_x_public",
+"type": "bytes32"
+},
+{
+"indexed": false,
+"name": "bob_y_public",
+"type": "bytes32"
+}
+],
+"name": "NewBobReply2",
+"type": "event"
+},
+{
+"anonymous": false,
+"inputs": [
+{
+"indexed": false,
+"name": "PrivateMessage",
+"type": "address"
+},
+{
+"indexed": false,
+"name": "alice",
+"type": "address"
+},
+{
+"indexed": false,
+"name": "bob",
+"type": "address"
+},
+{
+"indexed": false,
+"name": "encrypted_message",
+"type": "string"
+}
+],
+"name": "NewAliceSendEncryptedMessage",
+"type": "event"
+},
+{
+"anonymous": false,
+"inputs": [
+{
+"indexed": false,
+"name": "PrivateMessage",
+"type": "address"
+},
+{
+"indexed": false,
+"name": "alice",
+"type": "address"
+},
+{
+"indexed": false,
+"name": "bob",
+"type": "address"
+},
+{
+"indexed": false,
+"name": "bob_error",
+"type": "bool"
+}
+],
+"name": "NewBobFinal",
 "type": "event"
 },
 {
