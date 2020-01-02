@@ -14,6 +14,20 @@
 "type": "function"
 },
 {
+"constant": false,
+"inputs": [
+{
+"name": "_bob_public",
+"type": "string"
+}
+],
+"name": "bob_reply",
+"outputs": [],
+"payable": false,
+"stateMutability": "nonpayable",
+"type": "function"
+},
+{
 "constant": true,
 "inputs": [],
 "name": "encrypted_message",
@@ -25,24 +39,6 @@
 ],
 "payable": false,
 "stateMutability": "view",
-"type": "function"
-},
-{
-"constant": false,
-"inputs": [
-{
-"name": "_bob_x_public",
-"type": "bytes32"
-},
-{
-"name": "_bob_y_public",
-"type": "bytes32"
-}
-],
-"name": "bob_reply",
-"outputs": [],
-"payable": false,
-"stateMutability": "nonpayable",
 "type": "function"
 },
 {
@@ -90,11 +86,11 @@
 {
 "constant": true,
 "inputs": [],
-"name": "bob_y_public",
+"name": "bob_public",
 "outputs": [
 {
 "name": "",
-"type": "bytes32"
+"type": "string"
 }
 ],
 "payable": false,
@@ -119,34 +115,6 @@
 "constant": true,
 "inputs": [],
 "name": "bob",
-"outputs": [
-{
-"name": "",
-"type": "address"
-}
-],
-"payable": false,
-"stateMutability": "view",
-"type": "function"
-},
-{
-"constant": true,
-"inputs": [],
-"name": "bob_x_public",
-"outputs": [
-{
-"name": "",
-"type": "bytes32"
-}
-],
-"payable": false,
-"stateMutability": "view",
-"type": "function"
-},
-{
-"constant": true,
-"inputs": [],
-"name": "bob_onetime",
 "outputs": [
 {
 "name": "",
@@ -228,13 +196,8 @@
 },
 {
 "indexed": false,
-"name": "bob_x_public",
-"type": "bytes32"
-},
-{
-"indexed": false,
-"name": "bob_y_public",
-"type": "bytes32"
+"name": "bob_public",
+"type": "string"
 }
 ],
 "name": "NewBobReply",
@@ -257,6 +220,11 @@
 "indexed": false,
 "name": "bob",
 "type": "address"
+},
+{
+"indexed": false,
+"name": "bob_public",
+"type": "string"
 },
 {
 "indexed": false,

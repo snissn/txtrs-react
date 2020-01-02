@@ -346,12 +346,8 @@
 "type": "address"
 },
 {
-"name": "_bob_x_public",
-"type": "bytes32"
-},
-{
-"name": "_bob_y_public",
-"type": "bytes32"
+"name": "bob_public",
+"type": "string"
 }
 ],
 "name": "pm_bob_reply",
@@ -474,13 +470,8 @@
 },
 {
 "indexed": false,
-"name": "bob_x_public",
-"type": "bytes32"
-},
-{
-"indexed": false,
-"name": "bob_y_public",
-"type": "bytes32"
+"name": "bob_public",
+"type": "string"
 }
 ],
 "name": "NewBobReply2",
@@ -503,6 +494,11 @@
 "indexed": false,
 "name": "bob",
 "type": "address"
+},
+{
+"indexed": false,
+"name": "bob_public",
+"type": "string"
 },
 {
 "indexed": false,

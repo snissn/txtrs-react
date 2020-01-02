@@ -47,10 +47,8 @@ export default class SendPublicMessage extends React.Component {
 			var bob = await private_message.methods.bob().call()
       var message = {stage:stage,alice:alice,bob:bob, id:index}
       if (stage == "2"){
-        var bob_x = await private_message.methods.bob_x_public().call()
-        var bob_y = await private_message.methods.bob_y_public().call()
-        message['bob_x']=bob_x
-        message['bob_y']=bob_y
+        var bob_public = await private_message.methods.bob_public().call()
+        message['bob_public']=bob_public
       }
       message['address']=private_message_addr
       message['id'] = index;

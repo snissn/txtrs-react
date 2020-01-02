@@ -20,10 +20,13 @@ export default class EncryptMessage extends React.Component {
   onSendSecretMessage = async (event) => {
     event.preventDefault();
     var private_message = getPrivateMessage(this.props.message.address)
-    var public_key = Buffer.from("04"+this.props.message.bob_x.slice(2)+this.props.message.bob_y.slice(2),'hex');
+    // the damn library adds the "0x04" prevailing byte so we need to slice(2) the hex rep
+    //https://github.com/libertylocked/eth-ecies/blob/master/index.js#L74
+    var bob_public = this.props.message.bob_public;
+    var public_key = Buffer.from( bob_public.slice(2),'hex');
     var account = await  w3.eth.getAccounts()
     var encrypt = ecies.encrypt(public_key, this.state.message);
-    var send = await private_message.methods.alice_send_encrypted_message(encrypt.toString()).send({gasPrice:0,from:account[0]});
+    var send = await private_message.methods.alice_send_encrypted_message(encrypt.toString('hex')).send({gasPrice:0,from:account[0]});
     return false;
   }
 
@@ -61,10 +64,7 @@ export default class EncryptMessage extends React.Component {
 									{message.bob}
                   </p>
                   <p>
-									{message.bob_x}
-                  </p>
-                  <p>
-									{message.bob_y}
+									{message.bob_public}
                   </p>
 
 

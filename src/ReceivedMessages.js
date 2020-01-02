@@ -29,25 +29,9 @@ export default class ReceivedMessages extends React.Component {
   }
   async componentDidMount() {
     await this.setUpListeners();
-    console.log("state",this.state);
     await this.fetch();
     window.rec_state = this.state
 
-
-
-    //scratchbelow
-    var privateKey = w3.utils.randomHex(32)
-    const ec = new EC("secp256k1");
-    const ephemPrivKey = ec.keyFromPrivate(privateKey);
-    const ephemPubKey = ephemPrivKey.getPublic();
-    const ephemPubKeyEncoded = Buffer.from(ephemPubKey.encode()).toString('hex');
-
-    var bob_x = ephemPubKey.x.toString('hex');
-    var bob_y = ephemPubKey.y.toString('hex');
-
-
-    //todo bob_x wrong
-    //var pub_key_readable = (Buffer.from("0x04"+bob_x+bob_y,'hex')).toString('hex')
 
   }
   async private_message_bob_stage_2(private_message){
@@ -60,10 +44,8 @@ export default class ReceivedMessages extends React.Component {
     const ephemPubKeyEncoded = Buffer.from(ephemPubKey.encode());
     const pub_key_readable = Buffer.from(ephemPubKey.encode()).toString('hex')
 
-    var bob_x = ephemPubKey.x.toString('hex');
-    var bob_y = ephemPubKey.y.toString('hex');
-    bob_reply['bob_x'] = bob_x
-    bob_reply['bob_y'] = bob_y;
+    var bob_public = pub_key_readable
+    bob_reply['bob_public'] = pub_key_readable
 
     this.state.keys[pub_key_readable]=privateKey
     window.db[pub_key_readable] = privateKey
@@ -73,7 +55,7 @@ export default class ReceivedMessages extends React.Component {
 
     var accounts = await  w3.eth.getAccounts()
     await window.ethereum.enable()
-    var send = await private_message.methods.bob_reply('0x'+bob_x,'0x'+bob_y).send({gasPrice:0,from:accounts[0]})
+    var send = await private_message.methods.bob_reply(pub_key_readable).send({gasPrice:0,from:accounts[0]})
     console.log("state3",this.state);
 
   }
@@ -113,8 +95,7 @@ export default class ReceivedMessages extends React.Component {
 			var stage = await private_message.methods.stage().call()
 			var alice = await private_message.methods.alice().call()
 			var bob = await private_message.methods.bob().call()
-			var bob_x = await private_message.methods.bob_x_public().call()
-			var bob_y = await private_message.methods.bob_y_public().call()
+			var bob_public = await private_message.methods.bob_public().call()
       var encrypted_message = await private_message.methods.encrypted_message().call()
 
       if (stage == "1"){
@@ -123,22 +104,29 @@ export default class ReceivedMessages extends React.Component {
       if(stage == "3"){
         //decrypt using bob eey
         const ec = new EC("secp256k1");
-        var pub_key_readable = Buffer.from("04"+bob_x.slice(2)+bob_y.slice(2),'hex').toString("hex");
+        var pub_key_readable = Buffer.from(bob_public,'hex').toString("hex");
+        console.log('should be same kesy bob',bob_public, pub_key_readable)
         var ethPrivKey = window.localStorage[pub_key_readable];
         console.log("pub_key_readable",pub_key_readable)
         console.log("ethPrivKey",ethPrivKey)
         console.log("encrypted_message",encrypted_message)
         if(ethPrivKey){
-          debugger;
-
-          //plaintext = ecies.decrypt(ec.keyFromPrivate(ethPrivKey.slice(2)) , encrypted_message);
+          //try to encrypt and then decrypt (?)
+          var pub = Buffer.from(pub_key_readable.slice(2),'hex');
+          var encrypt = ecies.encrypt(pub, 'test');
+          var pk = ec.keyFromPrivate(ethPrivKey)
+          try{
+          plaintext = ecies.decrypt(pk , Buffer.from(encrypted_message,'hex')).toString();// XXX REAL ONE
+          }catch (e){
+          console.log(e);
+          }
 
           console.log('plaintext2',plaintext);
         }
 
       }
 
-      var message = {plaintext:plaintext,stage:stage,alice:alice,bob:bob, id:index, address: private_message_addr, encrypted_message:encrypted_message, bob_x:bob_x,bob_y:bob_y}
+    var message = {plaintext:plaintext,stage:stage,alice:alice,bob:bob, id:index, address: private_message_addr, encrypted_message:encrypted_message, bob_public:bob_public }
       messages.push(message);
 
       //var sender = await contract.methods.get_public_message_sender(index).call()
@@ -198,6 +186,10 @@ export default class ReceivedMessages extends React.Component {
 
 							</p>
 							<p>
+									{message.plaintext}
+
+							</p>
+							<p>
 									{message.encrypted_message}
 
 							</p>
@@ -208,16 +200,6 @@ export default class ReceivedMessages extends React.Component {
     );
   }
 
-  decrypt(message){
-
-    var ethPrivKey = this.state.keys[message.bob_x+message.bob_y];
-    let plaintext = ecies.decrypt(ethPrivKey, message.encrypted_message);
-      return (
-      <p>
-        {plaintext}
-      </p>
-    )
-  }
 }
 
 

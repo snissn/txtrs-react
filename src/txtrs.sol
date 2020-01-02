@@ -31,9 +31,7 @@ contract PrivateMessage{
     string public encrypted_message;
     address public alice;
     address public bob;
-    address public bob_onetime;
-    bytes32 public bob_x_public;
-    bytes32 public bob_y_public;
+    string public bob_public;
     uint256 public stage;
 
     bool public bob_finalized;
@@ -49,22 +47,21 @@ contract PrivateMessage{
         alice = _alice;
         emit NewPrivateMessage(address(this), alice, bob);
     }
-    event NewBobReply(address PrivateMessage,address alice, address bob, bytes32 bob_x_public, bytes32 bob_y_public);
-    function bob_reply(bytes32 _bob_x_public, bytes32 _bob_y_public){
+    event NewBobReply(address PrivateMessage,address alice, address bob, string bob_public);
+    function bob_reply(string _bob_public){
         require(stage==1);
         stage=2;
         require(msg.sender == bob);
-        bob_x_public=_bob_x_public;
-        bob_y_public=_bob_y_public;
-        emit NewBobReply(address(this),alice, bob, bob_x_public,bob_y_public);
+        bob_public=_bob_public;
+        emit NewBobReply(address(this),alice, bob, bob_public);
     }
-    event NewAliceSendEncryptedMessage(address PrivateMessage, address alice, address bob, string encrypted_message);
+    event NewAliceSendEncryptedMessage(address PrivateMessage, address alice, address bob, string bob_public, string encrypted_message);
     function alice_send_encrypted_message(string _encrypted_message){
         require(stage==2);
         stage=3;
         require(msg.sender == alice);
         encrypted_message=_encrypted_message;
-        emit NewAliceSendEncryptedMessage(address(this), alice, bob, encrypted_message);
+        emit NewAliceSendEncryptedMessage(address(this), alice, bob, bob_public,encrypted_message);
     }
     event NewBobFinal(address PrivateMessage, address alice, address bob, bool bob_error);
     function bob_final(bool _error){
@@ -138,8 +135,8 @@ contract Txtrs {
     //private message events:
 
     event NewPrivateMessage(address PrivateMessage, address alice, address bob); 
-    event NewBobReply2(address PrivateMessage,address alice, address bob, bytes32 bob_x_public, bytes32 bob_y_public);
-    event NewAliceSendEncryptedMessage(address PrivateMessage, address alice, address bob, string encrypted_message);
+    event NewBobReply2(address PrivateMessage,address alice, address bob, string bob_public);
+    event NewAliceSendEncryptedMessage(address PrivateMessage, address alice, address bob, string bob_public, string encrypted_message);
     event NewBobFinal(address PrivateMessage, address alice, address bob, bool bob_error);
     
     function pm_init(address bob ) returns (address){
@@ -156,15 +153,15 @@ contract Txtrs {
         emit NewPrivateMessage(message, alice, bob);
         return message;
     }
-    function pm_bob_reply(address pm, bytes32 _bob_x_public, bytes32 _bob_y_public){
+    function pm_bob_reply(address pm,string bob_public){
       PrivateMessage my_pm = PrivateMessage(pm);
-      my_pm.bob_reply(_bob_x_public, _bob_y_public);
-      emit NewBobReply2(pm,my_pm.alice(), my_pm.bob(), _bob_x_public, _bob_y_public);
+      my_pm.bob_reply(bob_public);
+      emit NewBobReply2(pm,my_pm.alice(), my_pm.bob(),bob_public);
     }
     function pm_alice_send_encrypted_message(address pm, string _encrypted_message){
       PrivateMessage my_pm = PrivateMessage(pm);
       my_pm.alice_send_encrypted_message(_encrypted_message);
-      emit NewAliceSendEncryptedMessage(pm, my_pm.alice(), my_pm.bob(), _encrypted_message);
+      emit NewAliceSendEncryptedMessage(pm, my_pm.alice(), my_pm.bob(),my_pm.bob_public(), _encrypted_message);
     }
     function pm_bob_final(address pm, bool _error){
       PrivateMessage my_pm = PrivateMessage(pm);
