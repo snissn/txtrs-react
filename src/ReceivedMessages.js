@@ -92,7 +92,6 @@ export default class ReceivedMessages extends React.Component {
 
 			var stage = await private_message.methods.stage().call()
       var plaintext=''
-			var stage = await private_message.methods.stage().call()
 			var alice = await private_message.methods.alice().call()
 			var bob = await private_message.methods.bob().call()
 			var bob_public = await private_message.methods.bob_public().call()
@@ -107,9 +106,6 @@ export default class ReceivedMessages extends React.Component {
         var pub_key_readable = Buffer.from(bob_public,'hex').toString("hex");
         console.log('should be same kesy bob',bob_public, pub_key_readable)
         var ethPrivKey = window.localStorage[pub_key_readable];
-        console.log("pub_key_readable",pub_key_readable)
-        console.log("ethPrivKey",ethPrivKey)
-        console.log("encrypted_message",encrypted_message)
         if(ethPrivKey){
           //try to encrypt and then decrypt (?)
           var pub = Buffer.from(pub_key_readable.slice(2),'hex');

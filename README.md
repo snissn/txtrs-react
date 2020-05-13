@@ -1,4 +1,12 @@
 
+1. testing from perosn recving messages
+incoming private messages event listener
+2. testing for person  sending messages
+outgoing check for listeners
+
+
+
+
 latest todo:
 almost basically have it all working!
 need to refactor the Events to be inside the txtrs contract, not in the separate Private Messages contract - makes the event listener way simpler
