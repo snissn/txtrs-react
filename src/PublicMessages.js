@@ -5,7 +5,7 @@ import ecies from 'eth-ecies'
 //import {getContract, contract, w3, users_address, getPrivateMessage, getBlockNumber} from "./Web3Helper"
 
 
-import {getContract, contract, web3init} from "./Web3Helper"
+import {getContract, contract, web3init, getBlockNumber} from "./Web3Helper"
 
 export default class PublicMessages extends React.Component {
 
@@ -17,10 +17,29 @@ export default class PublicMessages extends React.Component {
       }
     };
   }
+  
+  async setUpListeners(){
+    var block_number = await getBlockNumber()
+    var that = this;
+    contract.events.allEvents("allEvents",{
+    
+        fromBlock: 'latest'
 
-  async componentDidMount() {
+    },async function(err,data){
+      console.log("event", data);
+      await that.fetch();
+    });
+  }
+
+
+  async fetch(){
     const response = await this.getPublicMessages()
     this.setState({publicMessages: {"data":response}})
+  }
+
+  async componentDidMount() {
+    await this.fetch()
+    await this.setUpListeners();
   }
 
   async getPublicMessages() {
