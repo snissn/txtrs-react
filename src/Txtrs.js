@@ -3,6 +3,7 @@ import Panel from 'react-bootstrap/lib/Panel'
 import Button from 'react-bootstrap/lib/Button'
 import CustomerDetails from './CustomerDetails'
 import SendPublicMessage from "./SendPublicMessage"
+import PublicMessages from "./PublicMessages"
 import SendPrivateMessage from './SendPrivateMessage'
 import ReceivedMessages from './ReceivedMessages'
 
@@ -13,7 +14,6 @@ export default class Arts extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedArt: 1
     }
   }
 
@@ -47,18 +47,8 @@ export default class Arts extends Component {
       <div className="col-md-4">
       <div>
       <SendPublicMessage />
+      <PublicMessages />
       </div>
-        {
-
-          this.state.publicMessages.data.map(message => <Panel bsStyle="info" key={message.id} className="centeralign">
-            <Panel.Heading>
-              <Panel.Title componentClass="h3">{message.message}</Panel.Title>
-            </Panel.Heading>
-            <Panel.Body>
-              <p>{message.sender}</p>
-            </Panel.Body>
-          </Panel>)
-        }
         </div>
       <div className="col-md-4">
       <p>Send Private Message</p>
