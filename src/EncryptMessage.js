@@ -13,6 +13,8 @@ export default class EncryptMessage extends React.Component {
       message: props.message,
       errormessage: props.message
     };
+    this.onSendSecretMessage = this.onSendSecretMessage.bind(this);
+
   }
   async componentDidMount() {
   }
@@ -24,12 +26,15 @@ export default class EncryptMessage extends React.Component {
     var bob_public = this.state.message.bob_public;
     var public_key = Buffer.from( bob_public.slice(2),'hex');
     var account = await  w3.eth.getAccounts()
-    var encrypt = ecies.encrypt(public_key, this.state.message);
+    var encrypt = ecies.encrypt(public_key, this.state.secret_message);
     var send = await private_message.methods.alice_send_encrypted_message(encrypt.toString('hex')).send({gasPrice:0,from:account[0]});
     return false;
   }
 
   myChangeHandler = (event) => {
+    this.setState({secret_message: event.target.value});
+
+    return;
     let nam = event.target.name;
     let val = event.target.value;
     let err = '';
@@ -83,6 +88,7 @@ export default class EncryptMessage extends React.Component {
             type='text'
             name='message'
             placeholder="Secret Message"
+            value={this.state.secret_message}
             onChange={this.myChangeHandler}
           />
           <input
