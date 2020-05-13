@@ -31,7 +31,10 @@ export default class Arts extends Component {
     var messages_count = await contract.methods.get_public_message_count().call();
     console.log("messages count", messages_count);
     var messages = []
+    var counter=0;
     for(var index = messages_count-1; index >= 0 ;index-- ){
+      counter+=1;
+      if(counter ==5){break;}
       console.log("index is", index)
       var message = await contract.methods.get_public_message_message(index).call()
       var sender = await contract.methods.get_public_message_sender(index).call()

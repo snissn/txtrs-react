@@ -8,14 +8,13 @@ const ecies = require('eth-ecies')
 export default class EncryptMessage extends React.Component {
 	constructor(props) {
     super(props);
+    console.log("PROPS",props);
     this.state = {
-      message: '',
-      sentMessages : [],
-      errormessage: ''
+      message: props.message,
+      errormessage: props.message
     };
   }
   async componentDidMount() {
-    //this.setState({sentMessages: response})
   }
   onSendSecretMessage = async (event) => {
     event.preventDefault();
