@@ -94,6 +94,15 @@ export default class SendPublicMessage extends React.Component {
         onChange={this.myChangeHandler}
       />
       </div>
+      <div>
+      <label htmlFor="message">Message</label>
+      <input
+        type='text'
+        name='message'
+        placeholder="write something good here"
+        onChange={this.myChangeHandler}
+      />
+      </div>
       <input
         type='submit'
       />
