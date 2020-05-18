@@ -1,7 +1,7 @@
 import React from 'react';
 import Panel from 'react-bootstrap/lib/Panel'
 
-import {getContract, contract, w3} from "./Web3Helper"
+import {getContract, contract, w3, colorHash, contrast} from "./Web3Helper"
 import ReactDOM from 'react-dom';
 
 export default class SendPublicMessage extends React.Component {
@@ -9,8 +9,13 @@ export default class SendPublicMessage extends React.Component {
     super(props);
     this.state = {
       message: '',
-      errormessage: ''
+      errormessage: '',
+      account:''
     };
+  }
+  async componentDidMount(){
+    var account = await  w3.eth.getAccounts()
+    this.setState({account:account})
   }
   mySubmitHandler = async (event) => {
     event.preventDefault();
@@ -41,7 +46,7 @@ export default class SendPublicMessage extends React.Component {
 
 						</Panel.Title>
             </Panel.Heading>
-            <Panel.Body>
+            <Panel.Body style={{backgroundColor:colorHash.hex(this.state.account)}} >
               <form onSubmit={this.mySubmitHandler}>
               <input
                 type='text'

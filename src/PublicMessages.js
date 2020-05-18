@@ -6,46 +6,11 @@ import ecies from 'eth-ecies'
 import StartConversationButton from './StartConversationButton'
 
 
-import {getContract, contract, web3init, getBlockNumber} from "./Web3Helper"
-var ColorHash = require('color-hash');
-var colorHash = new ColorHash();
+import {w3,getContract, contract, web3init, getBlockNumber, colorHash, contrast} from "./Web3Helper"
 
 const blendstyle = {
             color:'white'
 }
-  function hexToRgb(hex) {
-    if (!hex || hex === undefined || hex === '') {
-      return undefined;
-    }
-
-    const result =
-          /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-
-    return result ? {
-      r: parseInt(result[1], 16),
-      g: parseInt(result[2], 16),
-      b: parseInt(result[3], 16)
-    } : undefined;
-  }
-  function rgbToYIQ({r, g, b}) {
-    return ((r * 299) + (g * 587) + (b * 114)) / 1000;
-  }
-
-export function contrast(colorHex: string | undefined,
-                         threshold: number = 128): string {
-    if (colorHex === undefined) {
-        return '#000';
-    }
-
-    const rgb: RGB | undefined = hexToRgb(colorHex);
-
-    if (rgb === undefined) {
-        return '#000';
-    }
-
-    return rgbToYIQ(rgb) >= threshold ? '#000' : '#fff';
-}
-
 
 export default class PublicMessages extends React.Component {
   
@@ -54,7 +19,8 @@ export default class PublicMessages extends React.Component {
     this.state = {
       publicMessages:{
         data: []
-      }
+      },
+      account:''
     };
   }
   
@@ -73,8 +39,9 @@ export default class PublicMessages extends React.Component {
 
 
   async fetch(){
+    var account = await  w3.eth.getAccounts()
     const response = await this.getPublicMessages()
-    this.setState({publicMessages: {"data":response}})
+    this.setState({publicMessages: {"data":response}, account:account})
   }
 
   async componentDidMount() {
