@@ -167,7 +167,7 @@ export default class ReceivedMessages extends React.Component {
               <Panel.Title componentClass="h3">
 										{(() => {
 											switch (message.stage) {
-												case "1":   return "Key request sent for One Time Use Public Keys.";
+												case "1":   return "Incoming Conversation request";
 												case "2": return "Waiting on recieving encrypted message ";
 												case "3":  return "Encrypted Message received" ;
 												case "4":  return "Encrypted Message received and status = Read";
@@ -177,10 +177,16 @@ export default class ReceivedMessages extends React.Component {
 						</Panel.Title>
             </Panel.Heading>
             <Panel.Body>
-							<p>
-									{message.alice}
-
-							</p>
+            <p>
+        {(() => {
+          switch (message.stage) {
+            case "1": return "incoming message request from "+message.alice;
+            default: return message.alice;
+            }
+            })()}
+            
+            </p>
+              
 							<p>
 									{message.plaintext}
 
