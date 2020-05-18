@@ -2,10 +2,11 @@ import React from 'react';
 import Panel from 'react-bootstrap/lib/Panel'
 import {getContract, contract, w3, users_address, getPrivateMessage, getBlockNumber} from "./Web3Helper"
 import EncryptMessage from './EncryptMessage'
+import Convo from './Convo'
 
 import ReactDOM from 'react-dom';
 
-export default class SendPublicMessage extends React.Component {
+export default class StartConversation extends React.Component {
   async setUpListeners(){
     var block_number = await getBlockNumber()
     var that = this;
@@ -32,13 +33,13 @@ export default class SendPublicMessage extends React.Component {
 		console.log("start send private msg");
     await this.setUpListeners();
     const response = await this.getSentMessages()
-    console.log('send messages response is ',response);
   }
   async getSentMessages() {
     var account = await  w3.eth.getAccounts()
     this.state.account = account;
     var messages_count = await contract.methods.get_sent_messages_total(users_address).call();
-    var messages = []
+    var messages = this.state.sentMessages
+    var show_once = {}
     for(var index = messages_count-1; index >= 0 ;index-- ){
       var private_message_addr = await contract.methods.get_sent_message(users_address,index).call()
 			var private_message = getPrivateMessage(private_message_addr)
@@ -46,16 +47,16 @@ export default class SendPublicMessage extends React.Component {
 			var alice = await private_message.methods.alice().call()
 			var bob = await private_message.methods.bob().call()
       var message = {stage:stage,alice:alice,bob:bob, id:index}
-      if(stage==1){
-      continue;
-      }
       if (stage == "2"){
-        var bob_public = await private_message.methods.bob_public().call()
-        message['bob_public']=bob_public
+        continue
       }
-      message['address']=private_message_addr
+      message['address']='address'
       message['id'] = index;
+      if(stage==1){
+      }
+      if(show_once[message['address']]||false){continue;}
       messages.push(message);
+      show_once[message['address']]=true;
     }
     this.setState({sentMessages: messages})
     return messages;
@@ -95,15 +96,6 @@ export default class SendPublicMessage extends React.Component {
         onChange={this.myChangeHandler}
       />
       </div>
-      <div>
-      <label htmlFor="message">Message</label>
-      <input
-        type='text'
-        name='message'
-        placeholder="write something good here"
-        onChange={this.myChangeHandler}
-      />
-      </div>
       <input
         type='submit'
       />
@@ -112,7 +104,7 @@ export default class SendPublicMessage extends React.Component {
       </form>
         <div>
         { this.state.sentMessages.map(message => 
-      <EncryptMessage message={message} key={message.id}/>
+      <Convo message={message} key={message.id}/>
           
           )
         }

@@ -6,6 +6,7 @@ import SendPublicMessage from "./SendPublicMessage"
 import PublicMessages from "./PublicMessages"
 import SendPrivateMessage from './SendPrivateMessage'
 import ReceivedMessages from './ReceivedMessages'
+import Conversations from './Conversations'
 
 import {getContract, contract, web3init} from "./Web3Helper"
 
@@ -47,19 +48,25 @@ export default class Arts extends Component {
     if (!this.state.publicMessages)
       return (<p>Loading data</p>)
     return (<div className="addmargin">
-      <div className="col-md-4">
-      <div>
-      <SendPublicMessage />
-      <PublicMessages />
-      </div>
+      <div className="col-md-3">
+        <div>
+          <SendPublicMessage />
+          <PublicMessages />
         </div>
-      <div className="col-md-4">
-      <p>Send Private Message</p>
-      <SendPrivateMessage />
       </div>
-      <div className="col-md-4">
-      <p>Incoming Private Messages</p>
-      <ReceivedMessages />
+      <div className="col-md-3">
+        <div>
+        <p>Conversations</p>
+        <Conversations />
+        </div>
+      </div>
+      <div className="col-md-3">
+        <p>Send Private Message</p>
+        <SendPrivateMessage />
+      </div>
+      <div className="col-md-3">
+        <p>Incoming Private Messages</p>
+        <ReceivedMessages />
       </div>
     </div>)
   }
