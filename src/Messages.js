@@ -10,7 +10,7 @@ export default class Messages extends React.Component {
 
   render() {
     return (
-    <div><h2>Active Conversation here </h2></div>
+    <div><h2>Active Conversations</h2></div>
     )
   }
 }

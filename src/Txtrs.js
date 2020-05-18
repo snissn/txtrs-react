@@ -67,11 +67,11 @@ export default class Arts extends Component {
       </div>
       <div className="col-md-12">
         <div className="col-md-6">
-          <p>Send Private Message</p>
+          <p>Outgoing Secure Messages</p>
           <SendPrivateMessage />
         </div>
         <div className="col-md-6">
-          <p>Incoming Private Messages</p>
+          <p>Incoming Secure Messages</p>
           <ReceivedMessages />
         </div>
       </div>
