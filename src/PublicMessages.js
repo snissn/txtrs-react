@@ -3,12 +3,52 @@ import Panel from 'react-bootstrap/lib/Panel'
 import ecies from 'eth-ecies'
 
 //import {getContract, contract, w3, users_address, getPrivateMessage, getBlockNumber} from "./Web3Helper"
+import StartConversationButton from './StartConversationButton'
 
 
 import {getContract, contract, web3init, getBlockNumber} from "./Web3Helper"
+var ColorHash = require('color-hash');
+var colorHash = new ColorHash();
+
+const blendstyle = {
+            color:'white'
+}
+  function hexToRgb(hex) {
+    if (!hex || hex === undefined || hex === '') {
+      return undefined;
+    }
+
+    const result =
+          /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : undefined;
+  }
+  function rgbToYIQ({r, g, b}) {
+    return ((r * 299) + (g * 587) + (b * 114)) / 1000;
+  }
+
+export function contrast(colorHex: string | undefined,
+                         threshold: number = 128): string {
+    if (colorHex === undefined) {
+        return '#000';
+    }
+
+    const rgb: RGB | undefined = hexToRgb(colorHex);
+
+    if (rgb === undefined) {
+        return '#000';
+    }
+
+    return rgbToYIQ(rgb) >= threshold ? '#000' : '#fff';
+}
+
 
 export default class PublicMessages extends React.Component {
-
+  
 	constructor(props) {
     super(props);
     this.state = {
@@ -56,17 +96,17 @@ export default class PublicMessages extends React.Component {
 
   render(){
           const elements = ['a','b','c'];
-          console.log("HERE");
-          console.log(this.state.publicMessages);
         return (
           <div>
           {
           this.state.publicMessages.data.map((message,index) => <Panel bsStyle="info" key={message.id} className="centeralign">
             <Panel.Heading>
-              <Panel.Title componentClass="h3">{message.message}</Panel.Title>
+              <Panel.Title componentClass="h3">{message.sender}</Panel.Title>
             </Panel.Heading>
-            <Panel.Body>
-              <p>{message.sender}</p>
+            <Panel.Body style={{backgroundColor:colorHash.hex(message.sender)}}>
+              <p style={{color:contrast(colorHash.hex(message.sender))}}>
+              {message.message}</p>
+              <p> <StartConversationButton  address={message.sender}/></p>
             </Panel.Body>
           </Panel>)
         

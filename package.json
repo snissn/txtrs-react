@@ -5,6 +5,7 @@
   "homepage": "http://txt.rs/",
   "dependencies": {
     "axios": "^0.18.0",
+    "color-hash": "^1.0.3",
     "eth-ecies": "^1.0.3",
     "idb-keyval": "^3.2.0",
     "react": "^16.4.1",
@@ -12,7 +13,7 @@
     "react-dom": "^16.4.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.0.0",
-    "web3": "^1.2.4"
+    "web3": "^1.2.7"
   },
   "scripts": {
     "start": "react-scripts start",
