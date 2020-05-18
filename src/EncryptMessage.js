@@ -56,7 +56,7 @@ export default class EncryptMessage extends React.Component {
 										{(() => {
 											switch (message.stage) {
 												case "1":   return "Key request sent.";
-												case "2": return "Recipient has shared one time use encryption keys with you. Time to encrypt and send the message!";
+												case "2": return "Encrypted Channel";
 												case "3":  return "Encrypted Message sent to "+message.bob;
 												case "4":  return "Encrypted Message received by "+message.bob;
 												default:      return "unknown stage ";
@@ -65,16 +65,7 @@ export default class EncryptMessage extends React.Component {
 						</Panel.Title>
             </Panel.Heading>
             <Panel.Body>
-                  <p>
-									{message.bob}
-                  </p>
-                  <p>
-									{message.bob_public}
-                  </p>
-
-
-        {this.renderForm(message)}
-
+              {this.renderForm(message)}
             </Panel.Body>
           </Panel>
           )
@@ -83,6 +74,8 @@ export default class EncryptMessage extends React.Component {
     if(message.stage=='2'){
       return (
         <form onSubmit={this.onSendSecretMessage}>
+          <label htmlFor="Receiver">Receiver</label>
+          <div name="Receiver">{message.bob}</div>
           <label htmlFor="message">Secret Message</label>
           <input
             type='text'
@@ -98,7 +91,7 @@ export default class EncryptMessage extends React.Component {
       )
     }
     if(message.stage=='1'){
-      return (<span>Conversation requsted </span>)
+      return (<span>Conversation with {message.bob} requsted </span>)
     }
     return (<span>Message Sent</span>)
   }

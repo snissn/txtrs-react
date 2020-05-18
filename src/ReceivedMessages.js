@@ -1,7 +1,9 @@
 import React from 'react';
+import Button from 'react-bootstrap/lib/Button'
 import Panel from 'react-bootstrap/lib/Panel'
 import ecies from 'eth-ecies'
-import {getContract, contract, w3, users_address, getPrivateMessage, getBlockNumber} from "./Web3Helper"
+import {getContract, contract, w3, users_address, getPrivateMessage, getBlockNumber, private_message_bob_stage_2} from "./Web3Helper"
+import AcceptMessageButton from './AcceptMessageButton'
 
 
 
@@ -19,8 +21,10 @@ export default class ReceivedMessages extends React.Component {
     this.state = {
       receivedMessages: [],
       errormessage: '',
-      keys:{}
+      keys:{},
+			message:undefined
     };
+
   }
   
   async fetch(){
@@ -34,33 +38,10 @@ export default class ReceivedMessages extends React.Component {
 
 
   }
-  async private_message_bob_stage_2(private_message){
-    var bob_reply = {}
-    console.log("state2",this.state);
-    var privateKey = w3.utils.randomHex(32)
-    const ec = new EC("secp256k1");
-    const ephemPrivKey = ec.keyFromPrivate(privateKey);
-    const ephemPubKey = ephemPrivKey.getPublic();
-    const ephemPubKeyEncoded = Buffer.from(ephemPubKey.encode());
-    const pub_key_readable = Buffer.from(ephemPubKey.encode()).toString('hex')
 
-    var bob_public = pub_key_readable
-    bob_reply['bob_public'] = pub_key_readable
 
-    this.state.keys[pub_key_readable]=privateKey
-    window.db[pub_key_readable] = privateKey
-    console.log('window.db',window.db);
-    window.localStorage.setItem(pub_key_readable, privateKey);
-    
 
-    var accounts = await  w3.eth.getAccounts()
-    await window.ethereum.enable()
-    alert("bob reply");
-    var send = await private_message.methods.bob_reply(pub_key_readable).send({gasPrice:0,from:accounts[0]})
-    alert("bob reply2");
-    console.log("state3",this.state);
 
-  }
 
   async setUpListeners(){
     var block_number = await getBlockNumber()
@@ -100,7 +81,7 @@ export default class ReceivedMessages extends React.Component {
       var encrypted_message = await private_message.methods.encrypted_message().call()
 
       if (stage == "1"){
-        this.private_message_bob_stage_2(private_message);
+        //private_message_bob_stage_2(private_message); // TODO remove
       }
       if(stage == "3"){
         //decrypt using bob eey
@@ -156,21 +137,13 @@ export default class ReceivedMessages extends React.Component {
             <p>
         {(() => {
           switch (message.stage) {
-            case "1": return "incoming message request from "+message.alice;
+            case "1": return "incoming message request from " + message.alice ;
+            case "2": return "Waiting on an encrypted message from " + message.alice;
             default: return message.alice;
             }
             })()}
-            
             </p>
-              
-							<p>
-									{message.plaintext}
-
-							</p>
-							<p>
-									{message.encrypted_message}
-
-							</p>
+            <AcceptMessageButton account={message.address} stage={message.stage} />
             </Panel.Body>
           </Panel>)
         }
