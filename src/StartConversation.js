@@ -39,7 +39,8 @@ export default class StartConversation extends React.Component {
     this.state.account = account;
     var messages_count = await contract.methods.get_sent_messages_total(users_address).call();
     var messages = this.state.sentMessages
-    var show_once = {}
+    var show_once_alice = { account:true}
+    var show_once_bob = {account:true}
     for(var index = messages_count-1; index >= 0 ;index-- ){
       var private_message_addr = await contract.methods.get_sent_message(users_address,index).call()
 			var private_message = getPrivateMessage(private_message_addr)
@@ -54,9 +55,10 @@ export default class StartConversation extends React.Component {
       message['id'] = index;
       if(stage==1){
       }
-      if(show_once[message['address']]||false){continue;}
+      if((show_once_alice[message['alice']]&&show_once_bob[message['bob']])||false){continue;}
       messages.push(message);
-      show_once[message['address']]=true;
+      show_once_alice[message['alice']]=true;
+      show_once_bob[message['bob']]=true;
     }
     this.setState({sentMessages: messages})
     return messages;
