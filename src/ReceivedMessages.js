@@ -4,6 +4,7 @@ import Panel from 'react-bootstrap/lib/Panel'
 import ecies from 'eth-ecies'
 import {getContract, contract, w3, users_address, getPrivateMessage, getBlockNumber, private_message_bob_stage_2} from "./Web3Helper"
 import AcceptMessageButton from './AcceptMessageButton'
+import SecretMessage from './SecretMessage'
 
 
 
@@ -139,11 +140,13 @@ export default class ReceivedMessages extends React.Component {
           switch (message.stage) {
             case "1": return "incoming message request from " + message.alice ;
             case "2": return "Waiting on an encrypted message from " + message.alice;
+            case "3": return "Secure message from " + message.alice;
             default: return message.alice;
             }
             })()}
             </p>
             <AcceptMessageButton account={message.address} stage={message.stage} />
+            <SecretMessage message={message} />
             </Panel.Body>
           </Panel>)
         }
