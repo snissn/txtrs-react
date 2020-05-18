@@ -96,9 +96,11 @@ export default class EncryptMessage extends React.Component {
           />
         </form>
       )
-    }else{
-      return (<span>Message Sent</span>)
     }
+    if(message.stage=='1'){
+      return (<span>Conversation requsted </span>)
+    }
+    return (<span>Message Sent</span>)
   }
 }
 

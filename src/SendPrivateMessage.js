@@ -47,7 +47,6 @@ export default class SendPublicMessage extends React.Component {
 			var bob = await private_message.methods.bob().call()
       var message = {stage:stage,alice:alice,bob:bob, id:index}
       if(stage==1){
-      continue;
       }
       if (stage == "2"){
         var bob_public = await private_message.methods.bob_public().call()
