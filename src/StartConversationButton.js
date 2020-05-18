@@ -17,7 +17,10 @@ export default class StartConversationButton extends React.Component {
     return false;
   }
   render(){
-      return (<div><p>{this.props.account}</p><input type="button" value="Start a secret conversation" onClick={(event)=>this.handleClick(this.props)}/></div>)
+      return (<div>
+        <p>{this.props.account}</p>
+        <input type="button" value="Start a secret conversation" onClick={(event)=>this.handleClick(this.props)}/>
+      </div>)
   }
 
 

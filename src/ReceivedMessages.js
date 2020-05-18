@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/lib/Button'
 import Panel from 'react-bootstrap/lib/Panel'
 import ecies from 'eth-ecies'
 import {getContract, contract, w3, users_address, getPrivateMessage, getBlockNumber, private_message_bob_stage_2} from "./Web3Helper"
+import {colorHash, contrast} from "./Web3Helper"
 import AcceptMessageButton from './AcceptMessageButton'
 import SecretMessage from './SecretMessage'
 
@@ -134,7 +135,7 @@ export default class ReceivedMessages extends React.Component {
 										})()}
 						</Panel.Title>
             </Panel.Heading>
-            <Panel.Body>
+            <Panel.Body style={{backgroundColor:colorHash.hex(message.alice), color:contrast(colorHash.hex(message.alice))}}>
             <p>
         {(() => {
           switch (message.stage) {

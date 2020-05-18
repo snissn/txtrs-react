@@ -1,6 +1,6 @@
 import React from 'react';
 import Panel from 'react-bootstrap/lib/Panel'
-import {getContract, contract, w3, users_address, getPrivateMessage} from "./Web3Helper"
+import {getContract, contract, w3, users_address, getPrivateMessage, colorHash, contrast} from "./Web3Helper"
 
 import ReactDOM from 'react-dom';
 const ecies = require('eth-ecies')
@@ -64,7 +64,8 @@ export default class Convo extends React.Component {
 										})()}
 						</Panel.Title>
             </Panel.Heading>
-            <Panel.Body>
+            <Panel.Body style={{backgroundColor:colorHash.hex(message.bob), color:contrast(colorHash.hex(message.bob))}}>
+            
             <div>
                   <p>
                     conversation wtih

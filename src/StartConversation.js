@@ -84,26 +84,6 @@ export default class StartConversation extends React.Component {
   }
   render() {
     return (
-    <div>
-    <p>
-    hi {this.state.account}
-    </p>
-      <form onSubmit={this.mySubmitHandler}>
-      <div>
-      <label htmlFor="address">Ethereum Address</label>
-      <input
-        type='text'
-        name='address'
-        placeholder="0xSatoshi"
-        onChange={this.myChangeHandler}
-      />
-      </div>
-      <input
-        type='submit'
-      />
- 
-      {this.state.errormessage}
-      </form>
         <div>
         { this.state.sentMessages.map(message => 
       <Convo message={message} key={message.id}/>
@@ -111,7 +91,6 @@ export default class StartConversation extends React.Component {
           )
         }
         </div>
-      </div>
     );
   }
 }

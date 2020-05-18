@@ -73,7 +73,7 @@ export default class PublicMessages extends React.Component {
             <Panel.Body style={{backgroundColor:colorHash.hex(message.sender)}}>
               <p style={{color:contrast(colorHash.hex(message.sender))}}>
               {message.message}</p>
-              <p> <StartConversationButton  address={message.sender}/></p>
+              <div> <StartConversationButton  address={message.sender}/></div>
             </Panel.Body>
           </Panel>)
         

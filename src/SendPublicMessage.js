@@ -55,6 +55,7 @@ export default class SendPublicMessage extends React.Component {
               />
               <input
                 type='submit'
+                value='Share'
               />
          
               {this.state.errormessage}

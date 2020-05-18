@@ -57,7 +57,7 @@ export default class Arts extends Component {
       </div>
       <div className="col-md-3">
         <div>
-        <p>Conversations</p>
+        <h2>Encrypted Conversations</h2>
         <Conversations />
         </div>
       </div>

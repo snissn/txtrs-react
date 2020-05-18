@@ -18,7 +18,7 @@ export default class AcceptMessageButton extends React.Component {
   }
   render(){
   if (this.props.stage==1){
-    return (<div><p>{this.props.account}</p><input type="button" value="Accept Conversation" onClick={(event)=>this.handleClick(this.props)}/></div>)
+    return (<div><p>{this.props.account}</p><input type="button" style={{color:'black'}} value="Accept Conversation" onClick={(event)=>this.handleClick(this.props)}/></div>)
   }
   else{
     return (<></>)
