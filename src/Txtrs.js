@@ -5,6 +5,7 @@ import CustomerDetails from './CustomerDetails'
 import SendPublicMessage from "./SendPublicMessage"
 import PublicMessages from "./PublicMessages"
 import SendPrivateMessage from './SendPrivateMessage'
+import Messages from './Messages'
 import ReceivedMessages from './ReceivedMessages'
 import Conversations from './Conversations'
 
@@ -60,13 +61,20 @@ export default class Arts extends Component {
         <Conversations />
         </div>
       </div>
-      <div className="col-md-3">
-        <p>Send Private Message</p>
-        <SendPrivateMessage />
+      <div className="col-md-6">
+      <div className="row">
+        <Messages />
       </div>
-      <div className="col-md-3">
-        <p>Incoming Private Messages</p>
-        <ReceivedMessages />
+      <div className="col-md-12">
+        <div className="col-md-6">
+          <p>Send Private Message</p>
+          <SendPrivateMessage />
+        </div>
+        <div className="col-md-6">
+          <p>Incoming Private Messages</p>
+          <ReceivedMessages />
+        </div>
+      </div>
       </div>
     </div>)
   }
