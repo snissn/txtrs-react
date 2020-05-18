@@ -59,64 +59,16 @@ export default class SendPublicMessage extends React.Component {
     this.setState({sentMessages: messages})
     return messages;
   };
-  mySubmitHandler = async (event) => {
-    event.preventDefault();
-    var account = await  w3.eth.getAccounts()
-    var send = await contract.methods.pm_init(this.state.address).send({gasPrice:0,from:account[0]});
-    return false;
-  }
 
-  myChangeHandler = (event) => {
-    let nam = event.target.name;
-    let val = event.target.value;
-    let err = '';
-    if (nam === "message") {
-      if (val =="" ) {
-        err = <strong>Your message can't be blank</strong>;
-      }
-    }
-    this.setState({errormessage: err});
-    this.setState({[nam]: val});
-  }
   render() {
     return (
     <div>
-    <p>
-    hi {this.state.account}
-    </p>
-      <form onSubmit={this.mySubmitHandler}>
-      <div>
-      <label htmlFor="address">Ethereum Address</label>
-      <input
-        type='text'
-        name='address'
-        placeholder="0xSatoshi"
-        onChange={this.myChangeHandler}
-      />
-      </div>
-      <div>
-      <label htmlFor="message">Message</label>
-      <input
-        type='text'
-        name='message'
-        placeholder="write something good here"
-        onChange={this.myChangeHandler}
-      />
-      </div>
-      <input
-        type='submit'
-      />
- 
-      {this.state.errormessage}
-      </form>
-        <div>
-        { this.state.sentMessages.map(message => 
-      <EncryptMessage message={message} key={message.id}/>
-          
-          )
-        }
-        </div>
-      </div>
+      { 
+        this.state.sentMessages.map(message => 
+          <EncryptMessage message={message} key={message.id}/>
+        )
+      }
+    </div>
     );
   }
 }

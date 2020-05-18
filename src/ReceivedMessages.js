@@ -55,7 +55,9 @@ export default class ReceivedMessages extends React.Component {
 
     var accounts = await  w3.eth.getAccounts()
     await window.ethereum.enable()
+    alert("bob reply");
     var send = await private_message.methods.bob_reply(pub_key_readable).send({gasPrice:0,from:accounts[0]})
+    alert("bob reply2");
     console.log("state3",this.state);
 
   }
@@ -133,32 +135,6 @@ export default class ReceivedMessages extends React.Component {
   render() {
     return (
 <div>
-      <form onSubmit={this.mySubmitHandler}>
-      <p>
-      <label htmlFor="address">Ethereum Address</label>
-      <input
-        type='text'
-        name='address'
-        placeholder="0xSatoshi"
-        onChange={this.myChangeHandler}
-      />
-      </p>
-      <p>
-      <label htmlFor="message">Secret Message</label>
-      <input
-        type='text'
-        name='message'
-        placeholder="Secret Message"
-        onChange={this.myChangeHandler}
-      />
-      </p>
-      <input
-        type='submit'
-      />
- 
-      {this.state.errormessage}
-      </form>
-      <p>hi</p>
         { 
 
 				this.state.receivedMessages.map(message => 
