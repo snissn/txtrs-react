@@ -74,9 +74,9 @@ export default class Arts extends Component {
     }
     if(this.state.networkname != 'private'){
         return (<div>
-        <h1>Oops, you’re on the wrong network</h1>
-          <h2>Simply open MetaMask and switch over to the custom MaticV3 testnet</h2>
-          <h4 className="App-subtitle"> Add custom testnet RPC url: https://testnetv3.matic.network/ </h4> 
+        <h1>Oops, Metamask is on the wrong network: </h1><h1>Switch to MaticV3</h1>
+          <h2>add new RPC URL:</h2>
+          <h4 className="App-subtitle">  <br />https://testnetv3.matic.network/ </h4> 
           <img className="metamask" src="/assets/images/metamask_example.png" />
           <img className="metamask" src="/assets/images/metamask_settings.png" />
         </div>)
