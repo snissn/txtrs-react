@@ -16,12 +16,15 @@ export default class Arts extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      networkname:'private'
     }
   }
 
   //function which is called the first time the component loads
   async componentDidMount() {
     await web3init();
+    var networkname = await window.w3.eth.net.getNetworkType();
+    this.setState({'networkname': networkname})
 
     const response = await this.getPublicMessages()
     console.log('response is ',response);
@@ -30,7 +33,11 @@ export default class Arts extends Component {
 
   //Function to get the Art Data from json
   async getPublicMessages() {
+     if(this.state.networkname != 'private'){
+         return {};
+     }
     var messages_count = await contract.methods.get_public_message_count().call();
+
     console.log("messages count", messages_count);
     var messages = []
     var counter=0;
@@ -43,11 +50,22 @@ export default class Arts extends Component {
       messages.push({message:message, sender:sender, id:index})
     }
     return messages;
+    
   };
 
   render() {
-    if (!this.state.publicMessages)
-      return (<p>Loading data</p>)
+    if(this.state.networkname != 'private'){
+        return (<div>
+        <h1>Oops, you’re on the wrong network</h1>
+          <h2>Simply open MetaMask and switch over to the custom MaticV3 testnet</h2>
+          <h4 className="App-subtitle"> Add custom testnet RPC url: https://testnetv3.matic.network/ </h4> 
+          <img className="metamask" src="/assets/images/metamask_example.png" />
+          <img className="metamask" src="/assets/images/metamask_settings.png" />
+        </div>)
+    }
+    if (!this.state.publicMessages){
+        return (<p>Loading data</p>)
+    }
     return (<div className="addmargin">
       <div className="col-md-3">
         <div>
