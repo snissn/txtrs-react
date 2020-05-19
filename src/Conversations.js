@@ -6,21 +6,29 @@ import {getContract, contract, w3, users_address, getPrivateMessage, getBlockNum
 import StartConversation from "./StartConversation"
 
 export default class Conversations extends React.Component {
+
+  myChangeHandler = (event) => {
+    this.setState({address: event.target.value});
+  }
+
+  async mySubmitHandler(props, event){
+    event.preventDefault();
+    var account = await  w3.eth.getAccounts()
+    var send = await contract.methods.pm_init(props.address).send({gasPrice:0,from:account[0]});
+    return false;
+  }
   render(){
   return (
     <div>
     <div>
-      <h4>Start a new conversation</h4>
-
           <Panel bsStyle="info" className="centeralign">
             <Panel.Heading>
               <Panel.Title componentClass="h3">
-          Start a new Conversation
-
+                Start a new Conversation
 						</Panel.Title>
             </Panel.Heading>
             <Panel.Body >
-              <form onSubmit={this.mySubmitHandler}>
+              <form onSubmit={(event)=>this.mySubmitHandler(this.state, event)}>
               <div>
                 <label htmlFor="address">Ethereum Address</label>
                 <input
