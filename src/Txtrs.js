@@ -22,13 +22,18 @@ export default class Arts extends Component {
 
   //function which is called the first time the component loads
   async componentDidMount() {
-    await web3init();
-    var networkname = await window.w3.eth.net.getNetworkType();
-    this.setState({'networkname': networkname})
+    var did_init = await web3init();
+    if(did_init){
+      var networkname = await window.w3.eth.net.getNetworkType();
+      this.setState({'networkname': networkname})
 
-    const response = await this.getPublicMessages()
-    console.log('response is ',response);
-    this.setState({publicMessages: {"data":response}})
+      const response = await this.getPublicMessages()
+      console.log('response is ',response);
+      this.setState({publicMessages: {"data":response}})
+    }else{
+      this.setState({networkname: 'no-web3'})
+    }
+
   }
 
   //Function to get the Art Data from json
@@ -54,6 +59,19 @@ export default class Arts extends Component {
   };
 
   render() {
+    if(this.state.networkname == 'no-web3'){
+      return (<div><h1>
+
+      <a href="https://metamask.io" target="_blank">
+      Install MetaMask to use the site
+      </a>
+      <a className="cover" href="https://metamask.io" target="_blank">
+          <img  src="/assets/images/download-extension.png" />
+      </a>
+
+</h1>
+      </div>)
+    }
     if(this.state.networkname != 'private'){
         return (<div>
         <h1>Oops, you’re on the wrong network</h1>

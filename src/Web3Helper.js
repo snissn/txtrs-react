@@ -84,9 +84,13 @@ var ColorHash = require('color-hash');
 export var colorHash = new ColorHash();
 
 export async function web3init(){
+  if(!window.ethereum){
+    return false;
+  }
   await window.ethereum.enable();//'https://rpc.goerli.mudit.blog/');
   var account = await  w3.eth.getAccounts()
   contract.options.from=account[0]
 	users_address = account[0];
+  return true;
 }
 
