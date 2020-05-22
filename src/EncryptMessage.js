@@ -74,7 +74,7 @@ export default class EncryptMessage extends React.Component {
   renderForm(message){
     if(message.stage=='2'){
       return (
-        <form onSubmit={this.onSendSecretMessage}>
+        <form onSubmit={this.onSendSecretMessage} className="form">
           <label htmlFor="Receiver">Receiver</label>
           <div name="Receiver">{message.bob}</div>
           <label htmlFor="message">Secret Message</label>
@@ -87,6 +87,7 @@ export default class EncryptMessage extends React.Component {
           />
           <input
             type='submit'
+            value="Send"
           />
         </form>
       )
