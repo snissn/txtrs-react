@@ -11,9 +11,6 @@ export default class AcceptMessageButton extends React.Component {
     super(props);
   }
   handleClick(props){
-    console.log(props.account)
-    var private_message = getPrivateMessage(props.account)
-    console.log(private_message);
 		private_message_bob_stage_2(props.account);
   }
   render(){

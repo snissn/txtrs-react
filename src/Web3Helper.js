@@ -43,8 +43,7 @@ export async function private_message_bob_stage_2(private_message_addr){
 
   var accounts = await  w3.eth.getAccounts()
   await window.ethereum.enable()
-  var private_message = getPrivateMessage(private_message_addr)
-  var send = await private_message.methods.bob_reply(pub_key_readable).send({gasPrice:0,from:accounts[0]})
+  var send = await contract.methods.pm_bob_reply(private_message_addr, pub_key_readable).send({gasPrice:0,from:accounts[0]})
 
 }
   function hexToRgb(hex) {
