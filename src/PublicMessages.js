@@ -25,7 +25,6 @@ export default class PublicMessages extends React.Component {
   }
   
   async setUpListeners(){
-    var block_number = await getBlockNumber()
     var that = this;
     contract.events.allEvents("allEvents",{
     

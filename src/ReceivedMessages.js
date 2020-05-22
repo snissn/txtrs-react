@@ -46,7 +46,6 @@ export default class ReceivedMessages extends React.Component {
 
 
   async setUpListeners(){
-    var block_number = await getBlockNumber()
     var that = this;
     contract.events.allEvents("allEvents",{
     

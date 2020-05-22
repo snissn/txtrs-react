@@ -7,15 +7,12 @@ import ReactDOM from 'react-dom';
 
 export default class SendPublicMessage extends React.Component {
   async setUpListeners(){
-    var block_number = await getBlockNumber()
     var that = this;
     contract.events.allEvents("allEvents",{
     
-        fromBlock: block_number,
-        toBlock: 'latest'
+        fromBlock: 'latest'
 
     },async function(err,data){
-      console.log("LOGGING THAT EVENT PICKED UP NEWS")
       await that.getSentMessages();
     });
   }
@@ -29,10 +26,8 @@ export default class SendPublicMessage extends React.Component {
     };
   }
   async componentDidMount() {
-		console.log("start send private msg");
     await this.setUpListeners();
     const response = await this.getSentMessages()
-    console.log('send messages response is ',response);
   }
   async getSentMessages() {
     var account = await  w3.eth.getAccounts()

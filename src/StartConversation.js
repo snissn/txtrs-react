@@ -8,12 +8,9 @@ import ReactDOM from 'react-dom';
 
 export default class StartConversation extends React.Component {
   async setUpListeners(){
-    var block_number = await getBlockNumber()
     var that = this;
     contract.events.allEvents("allEvents",{
-    
-        fromBlock: block_number,
-        toBlock: 'latest'
+        fromBlock: 'latest'
 
     },async function(err,data){
       console.log("LOGGING THAT EVENT PICKED UP NEWS")
