@@ -48,26 +48,27 @@ contract PrivateMessage{
         emit NewPrivateMessage(address(this), alice, bob);
     }
     event NewBobReply(address PrivateMessage,address alice, address bob, string bob_public);
-    function bob_reply(string _bob_public){
+    function bob_reply(string _bob_public) public{
+        
         require(stage==1);
         stage=2;
-        require(msg.sender == bob);
+        require(tx.origin == bob);
         bob_public=_bob_public;
         emit NewBobReply(address(this),alice, bob, bob_public);
     }
     event NewAliceSendEncryptedMessage(address PrivateMessage, address alice, address bob, string bob_public, string encrypted_message);
-    function alice_send_encrypted_message(string _encrypted_message){
+    function alice_send_encrypted_message (string _encrypted_message) public{
         require(stage==2);
         stage=3;
-        require(msg.sender == alice);
+        require(tx.origin == alice);
         encrypted_message=_encrypted_message;
         emit NewAliceSendEncryptedMessage(address(this), alice, bob, bob_public,encrypted_message);
     }
     event NewBobFinal(address PrivateMessage, address alice, address bob, bool bob_error);
-    function bob_final(bool _error){
+    function bob_final(bool _error) public{
         require(stage==3);
         stage=4;
-        require(msg.sender == bob);
+        require(tx.origin == bob);
         bob_finalized=true;
         bob_error=_error;
         emit NewBobFinal(address(this), alice, bob, bob_error);
@@ -292,4 +293,5 @@ contract Txtrs {
     }
 
 }
+
 

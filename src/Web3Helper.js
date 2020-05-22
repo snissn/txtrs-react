@@ -9,7 +9,7 @@ const EC = require("elliptic").ec;
 const ec = new EC("secp256k1");
 export var w3 = new Web3(window.ethereum);
 var contract_address = "0x6954fd4298F36FE38f254CF6789ebF755bb0035E";
-  
+var contract_address = "0xe312D5107D053355C66C6B9b623D09CE51FB98DD"
 export var users_address;
 
 window.w3 = w3;
