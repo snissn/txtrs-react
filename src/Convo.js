@@ -48,7 +48,6 @@ export default class Convo extends React.Component {
   }
   render() {
             var message = this.state.message;
-            console.log("MESSAGE",message);
             return(
 <Panel bsStyle="info" key={message.id} className="centeralign">
             <Panel.Heading>
