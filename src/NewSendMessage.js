@@ -2,14 +2,14 @@ import React, { Component, useState, useEffect } from "react";
 
 
 import Panel from 'react-bootstrap/lib/Panel'
-import { getContract, contract, w3, users_address, getPrivateMessage, getBlockNumber, getSentMessages } from "./Web3Helper"
+import { getContract, contract, contractws, w3, users_address, getPrivateMessage, getBlockNumber, getSentMessages } from "./Web3Helper"
 import EncryptMessage from './EncryptMessage'
 
 
 export default (props) => {
     const [messages, setMessages] = useState([]);
     useEffect(() => {
-        contract.events.allEvents("allEvents", {
+        contractws.events.allEvents("allEvents", {
             fromBlock: 'latest'
         }, async function (err, data) {
             console.log('')

@@ -1,3 +1,10 @@
+Run a "dev chain" as follows:
+
+
+./geth --dev --datadir dev-chain-dir --rpc --gasprice 0 --rpc --rpcaddr "0.0.0.0" --rpcport 80 --rpcvhosts=* --verbosity 5 --rpccorsdomain="*" --rpcapi "eth,net,web3,network,debug,txpool" --ws --wsaddr 0.0.0.0 --wsport 8546 --wsorigins "*" 
+
+
+
 
 1. testing from perosn recving messages
 incoming private messages event listener

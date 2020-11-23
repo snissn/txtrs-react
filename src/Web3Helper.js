@@ -7,6 +7,7 @@ import abi_private_message from './abi_private_message.json'
 const EC = require("elliptic").ec;
 const ec = new EC("secp256k1");
 export var w3 = new Web3(window.ethereum);
+export var w3ws = new Web3("ws://chain.txt.rs:8546");
 var contract_address = "0x6954fd4298F36FE38f254CF6789ebF755bb0035E";
 var contract_address = "0x01976Ff8C462E6837413eA72dAE7eC6cC03b497E"
 export var users_address;
@@ -14,6 +15,7 @@ export var users_address;
 window.w3 = w3;
 
 export const contract = new w3.eth.Contract(abi, contract_address);
+export const contractws = new w3ws.eth.Contract(abi, contract_address);
 
 export function getContract() {
   return contract;
