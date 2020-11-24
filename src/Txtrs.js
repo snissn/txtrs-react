@@ -105,10 +105,7 @@ export default class Arts extends Component {
           </h4>
           <img className="metamask" src="/assets/images/metamask_change.png" />
           <img className="metamask" src="/assets/images/metamask_example.png" />
-          <img
-            className="metamask"
-            src="/assets/images/metamask_settings.png"
-          />
+
         </div>
       );
     }
