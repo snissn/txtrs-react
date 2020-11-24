@@ -19,6 +19,9 @@ export const contractws = new w3ws.eth.Contract(abi, contract_address);
 export function getContract() {
   return contract;
 }
+export function getPrivateMessageWS(addr) {
+  return new w3ws.eth.Contract(abi_private_message, addr);
+}
 export function getPrivateMessage(addr) {
   const w3 = new Web3(window.ethereum);
   return new w3.eth.Contract(abi_private_message, addr);
@@ -29,15 +32,15 @@ export function getBlockNumber(addr) {
 
 export async function getSentMessages() {
   var account = await w3.eth.getAccounts();
-  var messages_count = await contract.methods
+  var messages_count = await contractws.methods
     .get_sent_messages_total(users_address)
     .call();
   var messages = [];
   for (var index = messages_count - 1; index >= 0; index--) {
-    var private_message_addr = await contract.methods
+    var private_message_addr = await contractws.methods
       .get_sent_message(users_address, index)
       .call();
-    var private_message = getPrivateMessage(private_message_addr);
+    var private_message = getPrivateMessageWS(private_message_addr);
     var alice = await private_message.methods.alice().call();
     var bob = await private_message.methods.bob().call();
     var stage = await private_message.methods.stage().call();
