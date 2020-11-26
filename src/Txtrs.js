@@ -130,32 +130,30 @@ also show address
       return <p>Loading data</p>;
     }
     return (
-      <div className="addmargin">
-        <div className="col-xl-8 col-md-9 col-12">
-          <div>
-            <SendPublicMessage />
-            <PublicMessages />
-          </div>
-        </div>
-        <div className="col-md-3">
-          <div>
-            <h2>Encrypted Conversations</h2>
-            <Conversations />
-          </div>
-        </div>
-        <div className="col-md-6">
-          <div className="row">
-            <Messages />
-          </div>
-          <div className="col-md-12">
-            <div className="col-md-6">
-              <p>Outgoing Secure Messages</p>
-              <NewSendMessage />
+      <div className=" ">
+        <div className="  row ">
+          <div className="col">
+            <div>
+              <SendPublicMessage />
+              <PublicMessages />
             </div>
-            <div className="col-md-6">
-              <p>Incoming Secure Messages</p>
-              <ReceivedMessages />
+          </div>
+          <div className="col">
+            <div>
+              <h2>Encrypted Conversations</h2>
+              <Conversations />
             </div>
+          </div>
+
+          <div className="col">
+            <h2>Outgoing Secure Messages</h2>
+            <NewSendMessage />
+          </div>
+          <div className="col">
+            <h2>Incoming Secure Messages</h2>
+            <ReceivedMessages />
+
+
           </div>
         </div>
       </div>

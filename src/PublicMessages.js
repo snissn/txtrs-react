@@ -5,6 +5,8 @@ import { w3, getContract, contract, contractws, web3init, getBlockNumber, colorH
 import BlockiesIdenticon from "./BlockiesIdenticon"
 import Media from 'react-bootstrap/Media'
 
+
+import Spinner from 'react-bootstrap/Spinner'
 const blockies = require('ethereum-blockies-png')
 
 const blendstyle = {
@@ -61,6 +63,14 @@ export default class PublicMessages extends React.Component {
 
   render() {
     const elements = ['a', 'b', 'c'];
+    if (this.state.publicMessages.data.length == 0) {
+      return <div>
+        <div className="spinner-border" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+
+      </div>
+    }
 
     return (
       <div className="container-fluid">

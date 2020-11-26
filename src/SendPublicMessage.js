@@ -41,8 +41,11 @@ export default class SendPublicMessage extends React.Component {
     this.setState({ [nam]: val });
   }
   render() {
+
+
+
     return (
-      <Card bsStyle="info" className="centeralign">
+      <Card bsStyle="info" classNameName="centeralign">
         <Card.Header as="h3">
           Send Public Message
 

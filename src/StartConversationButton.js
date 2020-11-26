@@ -14,7 +14,7 @@ export default class StartConversationButton extends React.Component {
     var account = await w3.eth.getAccounts()
     const gasEstimate = await contract.methods.pm_init(this.props.address).estimateGas()
 
-    var send = await contract.methods.pm_init(this.props.address).send({ gasPrice: 0, from: account[0] });
+    var send = await contract.methods.pm_init(this.props.address).send({ gas: gasEstimate, gasPrice: 0, from: account[0] });
     return false;
   }
   render() {

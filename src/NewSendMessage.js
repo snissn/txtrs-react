@@ -33,9 +33,6 @@ export default (props) => {
                 <EncryptMessage message={message} key={message.id} />
 
             )}
-            <input type="submit" onClick={getSentMessages} />
-
-            <input type="submit" value='fetch' onClick={fetch} />
 
         </div>
     );
