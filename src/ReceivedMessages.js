@@ -1,6 +1,7 @@
 import React from "react";
-import Button from "react-bootstrap/lib/Button";
-import Panel from "react-bootstrap/lib/Panel";
+import { Button } from 'react-bootstrap';
+
+import Card from 'react-bootstrap/Card'
 import ecies from "eth-ecies";
 import {
   getContract,
@@ -49,7 +50,7 @@ export default class ReceivedMessages extends React.Component {
       {
         fromBlock: "latest",
       },
-      async function(err, data) {
+      async function (err, data) {
         console.log("event", data);
         await that.fetch();
       }
@@ -114,7 +115,6 @@ export default class ReceivedMessages extends React.Component {
       };
       messages.push(message);
 
-      //var sender = await contract.methods.get_public_message_sender(index).call()
     }
     return messages;
   }
@@ -123,26 +123,25 @@ export default class ReceivedMessages extends React.Component {
     return (
       <div>
         {this.state.receivedMessages.map((message) => (
-          <Panel bsStyle="info" key={message.id} className="centeralign">
-            <Panel.Heading>
-              <Panel.Title componentClass="h3">
-                {(() => {
-                  switch (message.stage) {
-                    case "1":
-                      return "Incoming Conversation request";
-                    case "2":
-                      return "Waiting on recieving encrypted message ";
-                    case "3":
-                      return "Encrypted Message received";
-                    case "4":
-                      return "Encrypted Message received and status = Read";
-                    default:
-                      return "unknown stage ";
-                  }
-                })()}
-              </Panel.Title>
-            </Panel.Heading>
-            <Panel.Body
+          <Card bsStyle="info" key={message.id} className="centeralign">
+            <Card.Header as="h3">
+              {(() => {
+                switch (message.stage) {
+                  case "1":
+                    return "Incoming Conversation request";
+                  case "2":
+                    return "Waiting on recieving encrypted message ";
+                  case "3":
+                    return "Encrypted Message received";
+                  case "4":
+                    return "Encrypted Message received and status = Read";
+                  default:
+                    return "unknown stage ";
+                }
+              })()}
+
+            </Card.Header>
+            <Card.Body
               style={{
                 backgroundColor: colorHash.hex(message.alice),
                 color: contrast(colorHash.hex(message.alice)),
@@ -169,8 +168,8 @@ export default class ReceivedMessages extends React.Component {
                 stage={message.stage}
               />
               <SecretMessage message={message} />
-            </Panel.Body>
-          </Panel>
+            </Card.Body>
+          </Card>
         ))}
       </div>
     );

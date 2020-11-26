@@ -9,12 +9,14 @@ import {
   Redirect,
 } from "react-router-dom";
 
+
 class App extends Component {
   render() {
     return (
       <Router basename={process.env.PUBLIC_URL}>
+
         <div className="App">
-          <h1 className="App-title">Txt.rs.2.5.2</h1>
+          <h1 className="App-title">Txt.rs.2.5.3</h1>
           <a
             href="https://github.com/snissn/txtrs-react"
             target="_blank"

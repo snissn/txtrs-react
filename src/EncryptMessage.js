@@ -1,5 +1,6 @@
 import React from 'react';
-import Panel from 'react-bootstrap/lib/Panel'
+import Card from 'react-bootstrap/Card'
+
 import { getContract, contract, w3, users_address, getPrivateMessage, colorHash, contrast } from "./Web3Helper"
 
 import ReactDOM from 'react-dom';
@@ -29,7 +30,9 @@ export default class EncryptMessage extends React.Component {
     var account = await w3.eth.getAccounts()
     var encrypt = ecies.encrypt(public_key, this.state.secret_message);
     var contract = getContract();
-    var send = await contract.methods.pm_alice_send_encrypted_message(this.props.message.address, encrypt.toString('hex')).send({ gasPrice: 0, from: account[0] });
+    const gasEstimate = await contract.methods.pm_alice_send_encrypted_message(this.props.message.address, encrypt.toString('hex')).estimateGas()
+    console.log("account in encrypt message is", account)
+    var send = await contract.methods.pm_alice_send_encrypted_message(this.props.message.address, encrypt.toString('hex')).send({ gas: gasEstimate, gasPrice: 0, from: account[0] });
     return false;
   }
 
@@ -42,24 +45,23 @@ export default class EncryptMessage extends React.Component {
     var message = this.props.message;
     console.log("MESSAGE", message);
     return (
-      <Panel bsStyle="info" key={message.id} className="centeralign">
-        <Panel.Heading>
-          <Panel.Title componentClass="h3">
-            {(() => {
-              switch (message.stage) {
-                case "1": return "Key request sent.";
-                case "2": return "Encrypted Channel";
-                case "3": return "Encrypted Message sent to " + message.bob;
-                case "4": return "Encrypted Message received by " + message.bob;
-                default: return "unknown stage ";
-              }
-            })()}
-          </Panel.Title>
-        </Panel.Heading>
-        <Panel.Body style={{ backgroundColor: colorHash.hex(message.bob), color: contrast(colorHash.hex(message.bob)) }}>
+      <Card bsStyle="info" key={message.id} className="centeralign">
+        <Card.Header as="h3">
+          {(() => {
+            switch (message.stage) {
+              case "1": return "Key request sent.";
+              case "2": return "Encrypted Channel";
+              case "3": return "Encrypted Message sent to " + message.bob;
+              case "4": return "Encrypted Message received by " + message.bob;
+              default: return "unknown stage ";
+            }
+          })()}
+
+        </Card.Header>
+        <Card.Body style={{ backgroundColor: colorHash.hex(message.bob), color: contrast(colorHash.hex(message.bob)) }}>
           {this.renderForm(message)}
-        </Panel.Body>
-      </Panel>
+        </Card.Body>
+      </Card>
     )
   }
   renderForm(message) {

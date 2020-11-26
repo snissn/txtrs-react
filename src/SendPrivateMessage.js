@@ -1,5 +1,5 @@
 import React from "react";
-import Panel from "react-bootstrap/lib/Panel";
+import Card from 'react-bootstrap/Card'
 import {
   getContract,
   contract,
@@ -21,7 +21,7 @@ export default class SendPublicMessage extends React.Component {
       {
         fromBlock: "latest",
       },
-      async function(err, data) {
+      async function (err, data) {
         await that.getSentMessages();
       }
     );

@@ -1,6 +1,9 @@
 import React, { Component } from "react";
-import Panel from "react-bootstrap/lib/Panel";
-import Button from "react-bootstrap/lib/Button";
+import Card from 'react-bootstrap/Card'
+
+
+
+
 import CustomerDetails from "./CustomerDetails";
 import SendPublicMessage from "./SendPublicMessage";
 import PublicMessages from "./PublicMessages";
@@ -64,7 +67,20 @@ export default class Arts extends Component {
     return messages;
   }
 
+
+  /*
+nav bar
+
+says what network you're connected to - like a pill
+
+if not connected to txt network have help favicon that opens up the screen
+
+also show address
+
+*/
+
   render() {
+    /*
     if (this.state.networkname == "no-web3") {
       return (
         <div>
@@ -109,12 +125,13 @@ export default class Arts extends Component {
         </div>
       );
     }
+    */
     if (!this.state.publicMessages) {
       return <p>Loading data</p>;
     }
     return (
       <div className="addmargin">
-        <div className="col-md-3">
+        <div className="col-xl-8 col-md-9 col-12">
           <div>
             <SendPublicMessage />
             <PublicMessages />

@@ -1,7 +1,6 @@
 import React, { Component, useState, useEffect } from "react";
 
 
-import Panel from 'react-bootstrap/lib/Panel'
 import { getContract, contract, contractws, w3, users_address, getPrivateMessage, getBlockNumber, getSentMessages } from "./Web3Helper"
 import EncryptMessage from './EncryptMessage'
 

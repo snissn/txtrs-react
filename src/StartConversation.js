@@ -1,5 +1,4 @@
 import React from "react";
-import Panel from "react-bootstrap/lib/Panel";
 import {
   getContract,
   contract,
@@ -22,7 +21,7 @@ export default class StartConversation extends React.Component {
       {
         fromBlock: "latest",
       },
-      async function(err, data) {
+      async function (err, data) {
         console.log("LOGGING THAT EVENT PICKED UP NEWS");
         await that.getSentMessages();
       }
@@ -83,9 +82,11 @@ export default class StartConversation extends React.Component {
   mySubmitHandler = async (event) => {
     event.preventDefault();
     var account = await w3.eth.getAccounts();
+    const gasEstimate = await contract.methods.pm_init(this.state.address).estimateGas()
+
     var send = await contract.methods
       .pm_init(this.state.address)
-      .send({ gasPrice: 0, from: account[0] });
+      .send({ gasPrice: 0, from: account[0], gas: gasEstimate });
     return false;
   };
 

@@ -1,8 +1,11 @@
 import React from 'react';
-import Panel from 'react-bootstrap/lib/Panel'
 import ecies from 'eth-ecies'
 import StartConversationButton from './StartConversationButton'
 import { w3, getContract, contract, contractws, web3init, getBlockNumber, colorHash, contrast } from "./Web3Helper"
+import BlockiesIdenticon from "./BlockiesIdenticon"
+import Media from 'react-bootstrap/Media'
+
+const blockies = require('ethereum-blockies-png')
 
 const blendstyle = {
   color: 'white'
@@ -58,20 +61,39 @@ export default class PublicMessages extends React.Component {
 
   render() {
     const elements = ['a', 'b', 'c'];
-    return (
-      <div>
-        {
-          this.state.publicMessages.data.map((message, index) => <Panel bsStyle="info" key={message.id} className="centeralign">
-            <Panel.Heading>
-              <Panel.Title componentClass="h3">{message.sender}</Panel.Title>
-            </Panel.Heading>
-            <Panel.Body style={{ backgroundColor: colorHash.hex(message.sender) }}>
-              <p style={{ color: contrast(colorHash.hex(message.sender)) }}>
-                {message.message}</p>
-              <div> <StartConversationButton address={message.sender} /></div>
-            </Panel.Body>
-          </Panel>)
 
+    return (
+      <div className="container-fluid">
+        {
+          this.state.publicMessages.data.map((message, index) =>
+            <div className="container-fluid">
+
+              <Media>
+
+
+                <img
+                  width={64}
+                  height={64}
+
+                  className="mr-3"
+                  src={blockies.createDataURL({ seed: message.sender })}
+                />
+
+
+
+
+                <Media.Body>
+                  <h5>               {message.sender}</h5>
+
+                  <p>
+                    {message.message}
+                  </p>
+                  <StartConversationButton address={message.sender} />
+                </Media.Body>
+              </Media>
+            </div>
+
+          )
         }
       </div>
     )
