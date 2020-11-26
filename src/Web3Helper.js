@@ -72,7 +72,7 @@ export function getPrivateMessageWS(addr) {
   return new w3ws.eth.Contract(abi_private_message, addr);
 }
 export function getPrivateMessage(addr) {
-  const w3 = new Web3(window.ethereum);
+
   return new w3.eth.Contract(abi_private_message, addr);
 }
 export function getBlockNumber(addr) {
@@ -121,7 +121,10 @@ export async function private_message_bob_stage_2(private_message_addr) {
   window.localStorage.setItem(pub_key_readable, privateKey);
 
   var accounts = await w3.eth.getAccounts();
-  await window.ethereum.enable();
+
+
+
+
   const gasEstimate = await contract.methods
     .pm_bob_reply(private_message_addr, pub_key_readable)
     .estimateGas()
@@ -172,7 +175,8 @@ export var colorHash = new ColorHash();
 export async function web3init() {
   if (!!window.ethereum) {
 
-    await window.ethereum.enable(); //'https://rpc.goerli.mudit.blog/');
+    // XXX if you want to re enable metamask run this next line:
+    //  await window.ethereum.enable(); //'https://rpc.goerli.mudit.blog/');
   }
 
   var me = w3.eth.accounts.wallet.create(1)[0]['address']
