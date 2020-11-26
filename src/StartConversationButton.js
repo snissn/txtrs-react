@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { getContract, contract, w3, users_address, getPrivateMessage, private_message_bob_stage_2 } from "./Web3Helper"
-
+import Button from 'react-bootstrap/Button'
 import ReactDOM from 'react-dom';
 const ecies = require('eth-ecies')
 
@@ -20,7 +20,7 @@ export default class StartConversationButton extends React.Component {
   render() {
     return (<div>
       <p>{this.props.account}</p>
-      <input type="button" value="Start a secret conversation" onClick={(event) => this.handleClick(this.props)} />
+      <Button variant="primary" onClick={(event) => this.handleClick(this.props)} > Chat</Button>
     </div>)
   }
 

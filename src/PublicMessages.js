@@ -112,10 +112,15 @@ export default class PublicMessages extends React.Component {
                 <Media.Body>
 
 
+                  <div className="row">
 
-                  <p>
-                    {message.message}
-                  </p>
+                    <div className="col-sm-2">
+                      <StartConversationButton address={message.sender} />
+                    </div>
+                    <div className="col  justify-content-center align-self-center align-middle">
+                      {message.message}
+                    </div>
+                  </div>
                 </Media.Body>
               </Media>
             </div >
