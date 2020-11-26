@@ -5,6 +5,7 @@ import { w3, getContract, contract, contractws, web3init, getBlockNumber, colorH
 import BlockiesIdenticon from "./BlockiesIdenticon"
 import Media from 'react-bootstrap/Media'
 
+import EllipsisWithTooltip from 'react-ellipsis-with-tooltip'
 
 import Spinner from 'react-bootstrap/Spinner'
 const blockies = require('ethereum-blockies-png')
@@ -80,28 +81,44 @@ export default class PublicMessages extends React.Component {
 
               <Media>
 
+                <figure className="figure">
 
-                <img
-                  width={64}
-                  height={64}
+                  <img
+                    width={64}
+                    height={64}
 
-                  className="mr-3"
-                  src={blockies.createDataURL({ seed: message.sender })}
-                />
+                    className="mr-3 img-fluid"
+                    src={blockies.createDataURL({ seed: message.sender })}
+                  />
+
+                  <figcaption className="figure-caption"
+                    data-toggle="tooltip" data-placement="bottom" title=""
+                    style={{
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                      width: 80
+                    }}
+                    data-original-title={message.sender}
+                  >
+                    <EllipsisWithTooltip placement="bottom">
+                      {message.sender}
+                    </EllipsisWithTooltip>
 
 
-
+                  </figcaption>
+                </figure>
 
                 <Media.Body>
-                  <h5>               {message.sender}</h5>
+
+
 
                   <p>
                     {message.message}
                   </p>
-                  <StartConversationButton address={message.sender} />
                 </Media.Body>
               </Media>
-            </div>
+            </div >
 
           )
         }

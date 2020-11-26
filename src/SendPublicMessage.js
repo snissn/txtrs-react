@@ -47,7 +47,7 @@ export default class SendPublicMessage extends React.Component {
     return (
       <Card bsStyle="info" classNameName="centeralign">
         <Card.Header as="h3">
-          Send Public Message
+          Public Chat
 
              </Card.Header>
         <Card.Body style={{ backgroundColor: colorHash.hex(this.state.account) }} >

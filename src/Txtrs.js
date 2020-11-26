@@ -133,17 +133,15 @@ also show address
       <div className=" ">
         <div className="  row ">
           <div className="col">
-            <div>
-              <SendPublicMessage />
-              <PublicMessages />
-            </div>
+            <SendPublicMessage />
+            <PublicMessages />
           </div>
+          {/*
           <div className="col">
-            <div>
-              <h2>Encrypted Conversations</h2>
-              <Conversations />
-            </div>
+            <h2>Encrypted Conversations</h2>
+            <Conversations />
           </div>
+          */}
 
           <div className="col">
             <h2>Outgoing Secure Messages</h2>
