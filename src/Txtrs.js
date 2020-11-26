@@ -20,6 +20,7 @@ export default class Arts extends Component {
     super(props);
     this.state = {
       networkname: "private",
+      init: false
     };
   }
 
@@ -29,10 +30,8 @@ export default class Arts extends Component {
     if (did_init) {
       var networkname = await window.w3.eth.net.getNetworkType();
       this.setState({ networkname: networkname });
+      this.setState({ init: true });
 
-      const response = await this.getPublicMessages();
-      console.log("response is ", response);
-      this.setState({ publicMessages: { data: response } });
     } else {
       this.setState({ networkname: "no-web3" });
     }
@@ -40,30 +39,10 @@ export default class Arts extends Component {
 
   //Function to get the Art Data from json
   async getPublicMessages() {
-    if (this.state.networkname != "private") {
-      return {};
-    }
-    var messages_count = await contract.methods
-      .get_public_message_count()
-      .call();
 
-    console.log("messages count", messages_count);
+
     var messages = [];
-    var counter = 0;
-    for (var index = messages_count - 1; index >= 0; index--) {
-      counter += 1;
-      if (counter == 5) {
-        break;
-      }
-      console.log("index is", index);
-      var message = await contract.methods
-        .get_public_message_message(index)
-        .call();
-      var sender = await contract.methods
-        .get_public_message_sender(index)
-        .call();
-      messages.push({ message: message, sender: sender, id: index });
-    }
+
     return messages;
   }
 
@@ -126,7 +105,7 @@ also show address
       );
     }
     */
-    if (!this.state.publicMessages) {
+    if (!this.state.init) {
       return <p>Loading data</p>;
     }
     return (

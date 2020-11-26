@@ -53,17 +53,20 @@ export default class PublicMessages extends React.Component {
   async getPublicMessages() {
     var messages_count = await contractws.methods.get_public_message_count().call();
     var messages = []
-    for (var index = messages_count - 1; index >= 0; index--) {
+    for (var index = messages_count - 1; index >= Math.max(0, messages_count - 10); index--) {
       var message = await contractws.methods.get_public_message_message(index).call()
       var sender = await contractws.methods.get_public_message_sender(index).call()
       messages.push({ message: message, sender: sender, id: index })
+
+
+
+
     }
     return messages;
   };
 
 
   render() {
-    const elements = ['a', 'b', 'c'];
     if (this.state.publicMessages.data.length == 0) {
       return <div>
         <div className="spinner-border" role="status">
