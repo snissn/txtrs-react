@@ -16,8 +16,11 @@ class App extends Component {
       <Router basename={process.env.PUBLIC_URL}>
 
         <div className="App">
-          <h1 className="App-title">Txt.rs.2.6.4: Secure OTR messaging using ethereum. A new keypair is generated each time the page loads</h1>
+          <h1 className="App-title">Txt.rs.2.6.4: Secure OTR messaging using ethereum (like Signal). A new keypair is generated each time the page loads</h1>
+          <h3 className="App-title">To demo the features, send a public chat message and then initiate a private message with yourself</h3>
+
           <a
+
             href="https://github.com/snissn/txtrs-react"
             target="_blank"
             className="github-corner"

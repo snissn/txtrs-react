@@ -112,8 +112,11 @@ also show address
       <div className=" ">
         <div className="  row ">
           <div className="col">
+            <h2>Public Chat</h2>
+
             <SendPublicMessage />
             <PublicMessages />
+
           </div>
           {/*
           <div className="col">

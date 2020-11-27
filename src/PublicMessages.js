@@ -84,44 +84,25 @@ export default class PublicMessages extends React.Component {
 
               <Media>
 
-                <figure className="figure">
-
-                  <img
-                    width={64}
-                    height={64}
-
-                    className="mr-3 img-fluid"
-                    src={blockies.createDataURL({ seed: message.sender })}
-                  />
-
-                  <figcaption className="figure-caption"
-                    data-toggle="tooltip" data-placement="bottom" title=""
-                    style={{
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
-                      width: 80
-                    }}
-                    data-original-title={message.sender}
-                  >
-                    <EllipsisWithTooltip placement="bottom">
-                      {message.sender}
-                    </EllipsisWithTooltip>
-
-
-                  </figcaption>
-                </figure>
-
                 <Media.Body>
 
+                  <div className="media text-left text-muted pt-3">
 
-                  <div className="row">
+                    <img
 
-                    <div className="col-sm-2">
-                      <StartConversationButton address={message.sender} />
-                    </div>
-                    <div className="col  justify-content-center align-self-center align-middle">
+                      className="bd-placeholder-img mr-2 rounded-circle" width="45" height="45"
+                      src={blockies.createDataURL({ seed: message.sender })}
+                    />
+                    <p className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                      <strong className="d-block text-secondary">
+                        <EllipsisWithTooltip placement="bottom">
+                          @{message.sender}
+                        </EllipsisWithTooltip>
+                      </strong>
                       {message.message}
+                    </p>
+                    <div class="col-sm-2">
+                      <StartConversationButton address={message.sender} />
                     </div>
                   </div>
                 </Media.Body>

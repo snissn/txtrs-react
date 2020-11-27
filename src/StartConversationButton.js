@@ -18,10 +18,10 @@ export default class StartConversationButton extends React.Component {
     return false;
   }
   render() {
-    return (<div>
-      <p>{this.props.account}</p>
+    return (
+
       <Button variant="primary" onClick={(event) => this.handleClick(this.props)} > Chat</Button>
-    </div>)
+    )
   }
 
 

@@ -45,27 +45,33 @@ export default class SendPublicMessage extends React.Component {
 
 
     return (
-      <Card bsStyle="info" classNameName="centeralign">
-        <Card.Header as="h3">
-          Public Chat
 
-             </Card.Header>
-        <Card.Body style={{ backgroundColor: colorHash.hex(this.state.account) }} >
-          <form onSubmit={this.mySubmitHandler}>
+      <div className="panel-footer">
+
+        <form onSubmit={this.mySubmitHandler}>
+          <div className="input-group">
+
             <input
+              autocomplete="off"
+              className="form-control input-sm" placeholder="Type your message here..."
               type='text'
               name='message'
               onChange={this.myChangeHandler}
             />
-            <input
-              type='submit'
-              value='Share'
-            />
+            <span className="input-group-btn">
 
+              <input
+                className="btn btn-warning btn-sm" style={{ fontSize: 19 }}
+                type='submit'
+                value='Share'
+              />
+            </span>
             {this.state.errormessage}
-          </form>
-        </Card.Body>
-      </Card>
+          </div>
+
+        </form>
+
+      </div>
     );
   }
 }
