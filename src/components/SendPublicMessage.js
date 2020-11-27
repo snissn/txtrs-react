@@ -1,79 +1,58 @@
-import React from "react";
-import Card from "react-bootstrap/Card";
+import React, { useState, useEffect } from "react";
 
-import {
-  getContract,
-  contract,
-  w3,
-  colorHash,
-  contrast,
-} from "../helpers/Web3Helper";
+import { contract, w3 } from "../helpers/Web3Helper";
 
-export default class SendPublicMessage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      message: "",
-      errormessage: "",
-      account: "",
-    };
-  }
-  async componentDidMount() {
-    var account = await w3.eth.getAccounts();
-    this.setState({ account: account });
-  }
-  mySubmitHandler = async (event) => {
+export default function SendPublicMessage() {
+  const [message, setMessage] = useState();
+  const [errorMessage, setErrorMessage] = useState();
+  const [account, setAccount] = useState();
+
+  useEffect(() => {
+    w3.eth.getAccounts().then((response) => {
+      setAccount(response);
+    });
+  }, []);
+
+  const mySubmitHandler = async (event) => {
     event.preventDefault();
-    var account = await w3.eth.getAccounts();
-    console.log("");
-
-    const gasEstimate = await contract.methods
-      .send_public_message(this.state.message)
-      .estimateGas();
-
-    var send = await contract.methods
-      .send_public_message(this.state.message)
-      .send({ gas: gasEstimate }); //, {from:account}).send({from:account, value:0})
-    return false;
-  };
-
-  myChangeHandler = (event) => {
-    let nam = event.target.name;
-    let val = event.target.value;
-    let err = "";
-    if (nam === "message") {
-      if (val == "") {
-        err = <strong>Your message can't be blank</strong>;
-      }
+    if (message === "") {
+      setErrorMessage("Your message cannot be empty");
+    } else {
+      contract.methods
+        .send_public_message(message)
+        .estimateGas()
+        .then((gasEstimate) => {
+          contract.methods
+            .send_public_message(message)
+            .send({ gas: gasEstimate }); //, {from:account}).send({from:account, value:0})
+        });
     }
-    this.setState({ errormessage: err });
-    this.setState({ [nam]: val });
   };
-  render() {
-    return (
-      <div className="panel-footer">
-        <form onSubmit={this.mySubmitHandler}>
-          <div className="input-group">
+
+  return (
+    <div className="panel-footer">
+      <form onSubmit={mySubmitHandler}>
+        <div className="input-group">
+          <input
+            autocomplete="off"
+            className="form-control input-sm"
+            placeholder="Type your message here..."
+            type="text"
+            name="message"
+            onChange={(event) => setMessage(event.target.value)}
+          />
+          <span className="input-group-btn">
             <input
-              autocomplete="off"
-              className="form-control input-sm"
-              placeholder="Type your message here..."
-              type="text"
-              name="message"
-              onChange={this.myChangeHandler}
+              className="btn btn-warning btn-sm"
+              style={{ fontSize: 19 }}
+              type="submit"
+              value="Share"
             />
-            <span className="input-group-btn">
-              <input
-                className="btn btn-warning btn-sm"
-                style={{ fontSize: 19 }}
-                type="submit"
-                value="Share"
-              />
-            </span>
-            {this.state.errormessage}
-          </div>
-        </form>
-      </div>
-    );
-  }
+          </span>
+          <br />
+          {errorMessage && errorMessage}
+        </div>
+      </form>
+    </div>
+  );
 }

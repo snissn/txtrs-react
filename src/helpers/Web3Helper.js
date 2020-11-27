@@ -143,6 +143,7 @@ function rgbToYIQ({ r, g, b }) {
   return (r * 299 + g * 587 + b * 114) / 1000;
 }
 
+// Why add types on js? if you want we can do it with propTypes but its silly, You could str8 up used TS instead.
 export function contrast(
   colorHex: string | undefined,
   threshold: number = 128
