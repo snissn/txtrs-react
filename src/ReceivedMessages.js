@@ -1,7 +1,7 @@
 import React from "react";
-import { Button } from 'react-bootstrap';
+import { Button } from "react-bootstrap";
 
-import Card from 'react-bootstrap/Card'
+import Card from "react-bootstrap/Card";
 import ecies from "eth-ecies";
 import {
   getContract,
@@ -12,8 +12,8 @@ import {
   getPrivateMessageWS,
   getBlockNumber,
   private_message_bob_stage_2,
-} from "./Web3Helper";
-import { colorHash, contrast } from "./Web3Helper";
+} from "./helpers/Web3Helper";
+import { colorHash, contrast } from "./helpers/Web3Helper";
 import AcceptMessageButton from "./AcceptMessageButton";
 import SecretMessage from "./SecretMessage";
 
@@ -50,7 +50,7 @@ export default class ReceivedMessages extends React.Component {
       {
         fromBlock: "latest",
       },
-      async function (err, data) {
+      async function(err, data) {
         console.log("event", data);
         await that.fetch();
       }
@@ -114,7 +114,6 @@ export default class ReceivedMessages extends React.Component {
         bob_public: bob_public,
       };
       messages.push(message);
-
     }
     return messages;
   }
@@ -139,7 +138,6 @@ export default class ReceivedMessages extends React.Component {
                     return "unknown stage ";
                 }
               })()}
-
             </Card.Header>
             <Card.Body
               style={{

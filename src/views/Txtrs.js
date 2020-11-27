@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 
-import SendPublicMessage from "../SendPublicMessage";
+import SendPublicMessage from "../components/SendPublicMessage";
 import PublicMessages from "../PublicMessages";
 import ReceivedMessages from "../ReceivedMessages";
 import NewSendMessage from "../NewSendMessage";
 
-import { web3init } from "../Web3Helper";
+import { web3init } from "../helpers/Web3Helper";
 
 export default function Txtrs() {
+  // This is not used atm why are we setting it?
   const [networkName, setNetworkName] = useState("private");
   const [init, setInit] = useState(false);
 
@@ -36,12 +37,13 @@ export default function Txtrs() {
   return (
     <div>
       <div className="row">
+        {/* Public Chat Column */}
         <div className="col">
           <h2>Public Chat</h2>
-
           <SendPublicMessage />
           <PublicMessages />
         </div>
+
         {/*
         <div className="col">
           <h2>Encrypted Conversations</h2>
@@ -49,10 +51,13 @@ export default function Txtrs() {
         </div>
         */}
 
+        {/* Outgoing Messages Column */}
         <div className="col">
           <h2>Outgoing Secure Messages</h2>
           <NewSendMessage />
         </div>
+
+        {/* Incoming Messages Column */}
         <div className="col">
           <h2>Incoming Secure Messages</h2>
           <ReceivedMessages />
