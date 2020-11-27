@@ -25,7 +25,8 @@ export default function SendPublicMessage() {
           contract.methods
             .send_public_message(message)
             .send({ gas: gasEstimate }); //, {from:account}).send({from:account, value:0})
-        });
+        })
+        .catch((error) => alert(JSON.stringify(error)));
     }
   };
 

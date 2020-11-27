@@ -15,10 +15,13 @@ export default function Txtrs() {
   useEffect(() => {
     web3init().then((result) => {
       if (result) {
-        window.w3.eth.net.getNetworkType().then((response) => {
-          setNetworkName(response);
-          setInit(true);
-        });
+        window.w3.eth.net
+          .getNetworkType()
+          .then((response) => {
+            setNetworkName(response);
+            setInit(true);
+          })
+          .catch((error) => alert(JSON.stringify(error)));
       } else {
         setNetworkName("no-web3");
       }
