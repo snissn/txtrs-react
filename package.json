@@ -4,7 +4,7 @@
   "private": false,
   "homepage": "http://txt.rs/",
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.0",
     "blockies": "^0.0.2",
     "blockies-identicon": "^0.1.0",
     "color-hash": "^1.0.3",
