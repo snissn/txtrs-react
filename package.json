@@ -31,7 +31,8 @@
     "deploy": "gh-pages -d build"
   },
   "devDependencies": {
-    "gh-pages": "^1.2.0"
+    "gh-pages": "^1.2.0",
+    "optionator": "^0.9.1"
   },
   "browserslist": [
     ">0.2%",

@@ -1,19 +1,11 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
-import {
-  getContract,
-  contract,
-  contractws,
-  w3,
-  users_address,
-  getPrivateMessage,
-  getBlockNumber,
-  getSentMessages,
-} from "./helpers/Web3Helper";
-import EncryptMessage from "./EncryptMessage";
+import { contractws, getSentMessages } from "../helpers/Web3Helper";
+import EncryptMessage from "../EncryptMessage";
 
 export default (props) => {
   const [messages, setMessages] = useState([]);
+  // why is it structured like this what is the purpose?
   useEffect(() => {
     contractws.events.allEvents(
       "allEvents",
@@ -25,7 +17,7 @@ export default (props) => {
         await fetch();
       }
     );
-
+    // What is this?
     fetch().then(function() {});
   }, []);
 

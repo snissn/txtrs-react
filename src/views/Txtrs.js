@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 
 import SendPublicMessage from "../components/SendPublicMessage";
-import PublicMessages from "../PublicMessages";
-import ReceivedMessages from "../ReceivedMessages";
-import NewSendMessage from "../NewSendMessage";
+import PublicMessages from "../components/PublicMessages";
+import ReceivedMessages from "../components/ReceivedMessages";
+import NewSendMessage from "../components/NewSendMessage";
 
 import { web3init } from "../helpers/Web3Helper";
 

@@ -1,21 +1,16 @@
 import React from "react";
-import { Button } from "react-bootstrap";
 
 import Card from "react-bootstrap/Card";
 import ecies from "eth-ecies";
 import {
-  getContract,
-  contract,
   contractws,
-  w3,
   users_address,
   getPrivateMessageWS,
-  getBlockNumber,
-  private_message_bob_stage_2,
-} from "./helpers/Web3Helper";
-import { colorHash, contrast } from "./helpers/Web3Helper";
+  colorHash,
+  contrast,
+} from "../helpers/Web3Helper";
 import AcceptMessageButton from "./AcceptMessageButton";
-import SecretMessage from "./SecretMessage";
+import SecretMessage from "../SecretMessage";
 
 window.db = {};
 window.rec_state = {};
