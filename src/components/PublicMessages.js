@@ -1,27 +1,10 @@
 import React from "react";
-import ecies from "eth-ecies";
-import StartConversationButton from "./StartConversationButton";
-import {
-  w3,
-  getContract,
-  contract,
-  contractws,
-  web3init,
-  getBlockNumber,
-  colorHash,
-  contrast,
-} from "./helpers/Web3Helper";
-import BlockiesIdenticon from "./BlockiesIdenticon";
+import StartConversationButton from "../StartConversationButton";
+import { w3, contractws } from "../helpers/Web3Helper";
 import Media from "react-bootstrap/Media";
-
 import EllipsisWithTooltip from "react-ellipsis-with-tooltip";
 
-import Spinner from "react-bootstrap/Spinner";
 const blockies = require("ethereum-blockies-png");
-
-const blendstyle = {
-  color: "white",
-};
 
 export default class PublicMessages extends React.Component {
   constructor(props) {

@@ -1,15 +1,6 @@
 import React from "react";
-import {
-  getContract,
-  contract,
-  w3,
-  users_address,
-  getPrivateMessage,
-  private_message_bob_stage_2,
-} from "./helpers/Web3Helper";
+import { contract, w3 } from "./helpers/Web3Helper";
 import Button from "react-bootstrap/Button";
-import ReactDOM from "react-dom";
-const ecies = require("eth-ecies");
 
 export default class StartConversationButton extends React.Component {
   constructor(props) {

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { contract, w3 } from "../helpers/Web3Helper";
 
 export default function SendPublicMessage() {
-  const [message, setMessage] = useState();
+  const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState();
   const [account, setAccount] = useState();
 
@@ -15,7 +15,7 @@ export default function SendPublicMessage() {
 
   const mySubmitHandler = async (event) => {
     event.preventDefault();
-    if (message === "") {
+    if (!message || message === "") {
       setErrorMessage("Your message cannot be empty");
     } else {
       contract.methods
@@ -25,7 +25,8 @@ export default function SendPublicMessage() {
           contract.methods
             .send_public_message(message)
             .send({ gas: gasEstimate }); //, {from:account}).send({from:account, value:0})
-        });
+        })
+        .catch((error) => alert(JSON.stringify(error)));
     }
   };
 

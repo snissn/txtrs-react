@@ -1,17 +1,12 @@
 import React from "react";
 import {
-  getContract,
   contract,
   contractws,
   w3,
   users_address,
   getPrivateMessageWS,
-  getBlockNumber,
 } from "./Web3Helper";
-import EncryptMessage from "./EncryptMessage";
 import Convo from "./Convo";
-
-import ReactDOM from "react-dom";
 
 export default class StartConversation extends React.Component {
   async setUpListeners() {

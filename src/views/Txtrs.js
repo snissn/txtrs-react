@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 
 import SendPublicMessage from "../components/SendPublicMessage";
-import PublicMessages from "../PublicMessages";
-import ReceivedMessages from "../ReceivedMessages";
-import NewSendMessage from "../NewSendMessage";
+import PublicMessages from "../components/PublicMessages";
+import ReceivedMessages from "../components/ReceivedMessages";
+import NewSendMessage from "../components/NewSendMessage";
 
 import { web3init } from "../helpers/Web3Helper";
 
@@ -15,10 +15,13 @@ export default function Txtrs() {
   useEffect(() => {
     web3init().then((result) => {
       if (result) {
-        window.w3.eth.net.getNetworkType().then((response) => {
-          setNetworkName(response);
-          setInit(true);
-        });
+        window.w3.eth.net
+          .getNetworkType()
+          .then((response) => {
+            setNetworkName(response);
+            setInit(true);
+          })
+          .catch((error) => alert(JSON.stringify(error)));
       } else {
         setNetworkName("no-web3");
       }
