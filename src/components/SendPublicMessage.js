@@ -24,7 +24,7 @@ export default function SendPublicMessage() {
         .then((gasEstimate) => {
           contract.methods
             .send_public_message(message)
-            .send({ gas: gasEstimate }); //, {from:account}).send({from:account, value:0})
+            .send({ gas: gasEstimate });
         });
     }
   };
