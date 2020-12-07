@@ -8,12 +8,11 @@ export default function Identity() {
     async function fetchData() {
       // You can await here
       var x = await w3.eth.getAccounts();
-      console.log("X", x);
       setAccount(x);
       // ...
     }
     fetchData();
-  }, [account]); // Or [] if effect doesn't need props or state
+  }, []); // Or [] if effect doesn't need props or state
 
   if (!account) {
     return <div />;
