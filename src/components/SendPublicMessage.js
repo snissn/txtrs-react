@@ -6,6 +6,7 @@ export default function SendPublicMessage() {
   const [message, setMessage] = useState();
   const [errorMessage, setErrorMessage] = useState();
   const [account, setAccount] = useState();
+  const [sendStatus, setSendStatus] = useState();
 
   useEffect(() => {
     w3.eth.getAccounts().then((response) => {
@@ -18,14 +19,19 @@ export default function SendPublicMessage() {
     if (message === "") {
       setErrorMessage("Your message cannot be empty");
     } else {
+      setSendStatus('Sending');
       contract.methods
         .send_public_message(message)
         .estimateGas()
         .then((gasEstimate) => {
           contract.methods
             .send_public_message(message)
-            .send({ gas: gasEstimate });
-        });
+            .send({ gas: gasEstimate })
+            .then(() => {
+                setSendStatus('');
+                setMessage('');
+            })
+        })
     }
   };
 
@@ -39,14 +45,16 @@ export default function SendPublicMessage() {
             placeholder="Type your message here..."
             type="text"
             name="message"
+            value={message}
             onChange={(event) => setMessage(event.target.value)}
+            disabled={sendStatus === 'Sending'}
           />
           <span className="input-group-btn">
             <input
-              className="btn btn-warning btn-sm"
+              className={sendStatus === 'Sending' ? 'btn btn-sm btn-danger' : 'btn btn-sm btn-warning'}
               style={{ fontSize: 19 }}
               type="submit"
-              value="Share"
+              value={sendStatus === 'Sending' ? 'Sharing...' : "Share"}
             />
           </span>
           <br />
