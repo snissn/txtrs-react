@@ -21,8 +21,8 @@ export default function App() {
         Secure OTR messaging (like Signal) using a secure ethereum sidechain.
       </h1>
       <p>
-        To demo the features, send a public chat message and then click the chat
-        button to initiate a private message with yourself
+        To demo the secure chat, send a public chat message and then click the
+        chat button to initiate a private message with yourself
       </p>
 
       {/* Since we only have 1 route , we might not need react-router */}
