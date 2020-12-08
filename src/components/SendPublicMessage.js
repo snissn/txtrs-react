@@ -47,6 +47,7 @@ export default function SendPublicMessage() {
             name="message"
             value={message}
             onChange={(event) => setMessage(event.target.value)}
+            disabled={sendStatus === 'Sending'}
           />
           <span className="input-group-btn">
             <input
