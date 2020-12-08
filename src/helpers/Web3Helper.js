@@ -18,7 +18,16 @@ const privateKey = 'e0f34403.................................29c8c861937';
 
 export var w3ws = new Web3("wss://chain.txt.rs:443");
 
-var me = w3ws.eth.accounts.wallet.create(1)[0];
+var ethPrivKey = window.localStorage["txt_key"];
+console.log("ETH", ethPrivKey);
+if (!ethPrivKey) {
+  var wallet = w3ws.eth.accounts.wallet.create(1)[0];
+  window.localStorage.setItem("txt_key", wallet.privateKey);
+  ethPrivKey = wallet.privateKey;
+}
+var me = w3ws.eth.accounts.privateKeyToAccount(ethPrivKey);
+
+console.log("ME", me);
 const address = me.address;
 const privateKey = me.privateKey;
 
