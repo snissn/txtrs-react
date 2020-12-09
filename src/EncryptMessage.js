@@ -13,6 +13,7 @@ import {
 
 import ReactDOM from "react-dom";
 const ecies = require("eth-ecies");
+const blockies = require("ethereum-blockies-png");
 
 export default class EncryptMessage extends React.Component {
   constructor(props) {
@@ -62,20 +63,30 @@ export default class EncryptMessage extends React.Component {
     return (
       <Card bsStyle="info" key={message.id} className="centeralign">
         <Card.Header as="h3">
-          {(() => {
-            switch (message.stage) {
-              case "1":
-                return "Key request sent.";
-              case "2":
-                return "Encrypted Channel";
-              case "3":
-                return "Encrypted Message sent to " + message.bob;
-              case "4":
-                return "Encrypted Message received by " + message.bob;
-              default:
-                return "unknown stage ";
-            }
-          })()}
+          <div className="media text-left text-muted pt-3">
+            <img
+              className="bd-placeholder-img mr-2 rounded-circle"
+              width="45"
+              height="45"
+              src={blockies.createDataURL({ seed: message.bob })}
+            />
+            <p className="media-body  mb-0  lh-125 ">
+              {(() => {
+                switch (message.stage) {
+                  case "1":
+                    return "Key request sent to " + message.bob;
+                  case "2":
+                    return "Encrypted Channel with " + message.bob;
+                  case "3":
+                    return "Encrypted Message sent to " + message.bob;
+                  case "4":
+                    return "Encrypted Message received by " + message.bob;
+                  default:
+                    return "unknown stage ";
+                }
+              })()}
+            </p>
+          </div>
         </Card.Header>
         <Card.Body
           style={{
@@ -92,9 +103,6 @@ export default class EncryptMessage extends React.Component {
     if (message.stage == "2") {
       return (
         <form onSubmit={this.onSendSecretMessage} className="form">
-          <label htmlFor="Receiver">Receiver</label>
-          <div name="Receiver">{message.bob}</div>
-          <label htmlFor="message">Secret Message</label>
           <input
             type="text"
             name="message"
