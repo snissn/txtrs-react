@@ -69,13 +69,26 @@ export default class PublicMessages extends React.Component {
       index >= Math.max(0, messages_count - 10);
       index--
     ) {
-      var message = await contractws.methods
-        .get_public_message_message(index)
-        .call();
-      var sender = await contractws.methods
-        .get_public_message_sender(index)
-        .call();
-      messages.push({ message: message, sender: sender, id: index });
+      var message = window.localStorage["message:" + index];
+      if (message) {
+        message = JSON.parse(message);
+      }
+      if (!message) {
+        var message_text = await contractws.methods
+          .get_public_message_message(index)
+          .call();
+        var sender = await contractws.methods
+          .get_public_message_sender(index)
+          .call();
+
+        message = { message: message_text, sender: sender, id: index };
+
+        window.localStorage.setItem(
+          "message:" + index,
+          JSON.stringify(message)
+        );
+      }
+      messages.push(message);
     }
     return messages;
   }
