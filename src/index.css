@@ -4,3 +4,10 @@ body {
        font-family: "Segoe UI",Arial,sans-serif;
 
 }
+
+.card {
+    margin-top: 10px;
+}
+.card-header {
+    font-size:14px
+}

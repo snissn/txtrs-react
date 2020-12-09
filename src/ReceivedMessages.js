@@ -124,20 +124,20 @@ export default class ReceivedMessages extends React.Component {
         {this.state.receivedMessages.map((message) => (
           <Card bsStyle="info" key={message.id} className="centeralign">
             <Card.Header as="h3">
-              {(() => {
-                switch (message.stage) {
-                  case "1":
-                    return "Incoming Conversation request";
-                  case "2":
-                    return "Waiting on recieving encrypted message ";
-                  case "3":
-                    return "Encrypted Message received";
-                  case "4":
-                    return "Encrypted Message received and status = Read";
-                  default:
-                    return "unknown stage ";
-                }
-              })()}
+                {(() => {
+                  switch (message.stage) {
+                    case "1":
+                      return "Incoming Message Request From " + message.alice;
+                    case "2":
+                      return (
+                        "Waiting On Encrypted Message from " + message.alice
+                      );
+                    case "3":
+                      return "Secure Message From " + message.alice;
+                    default:
+                      return message.alice;
+                  }
+                })()}
             </Card.Header>
             <Card.Body
               style={{
@@ -145,22 +145,6 @@ export default class ReceivedMessages extends React.Component {
                 color: contrast(colorHash.hex(message.alice)),
               }}
             >
-              <p>
-                {(() => {
-                  switch (message.stage) {
-                    case "1":
-                      return "incoming message request from " + message.alice;
-                    case "2":
-                      return (
-                        "Waiting on an encrypted message from " + message.alice
-                      );
-                    case "3":
-                      return "Secure message from " + message.alice;
-                    default:
-                      return message.alice;
-                  }
-                })()}
-              </p>
               <AcceptMessageButton
                 account={message.address}
                 stage={message.stage}
