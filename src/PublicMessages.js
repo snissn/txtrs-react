@@ -11,7 +11,6 @@ import {
   colorHash,
   contrast,
 } from "./helpers/Web3Helper";
-import BlockiesIdenticon from "./BlockiesIdenticon";
 import Media from "react-bootstrap/Media";
 
 import EllipsisWithTooltip from "react-ellipsis-with-tooltip";
