@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component, useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 
 import Card from "react-bootstrap/Card";
@@ -30,6 +30,7 @@ export default class ReceivedMessages extends React.Component {
       errormessage: "",
       keys: {},
       message: undefined,
+      acceptButtonFlag: false,
     };
   }
 
@@ -77,9 +78,6 @@ export default class ReceivedMessages extends React.Component {
         .encrypted_message()
         .call();
 
-      if (stage == "1") {
-        //private_message_bob_stage_2(private_message); // TODO remove
-      }
       if (stage == "3") {
         //decrypt using bob eey
         const ec = new EC("secp256k1");
@@ -113,6 +111,13 @@ export default class ReceivedMessages extends React.Component {
         encrypted_message: encrypted_message,
         bob_public: bob_public,
       };
+
+      if (stage == "1") {
+        if (!this.state.acceptButtonFlag) {
+          this.setState({ acceptButtonFlag: true });
+          private_message_bob_stage_2(private_message_addr); // TODO remove
+        }
+      }
       messages.push(message);
     }
     return messages;
@@ -161,10 +166,6 @@ export default class ReceivedMessages extends React.Component {
                   }
                 })()}
               </p>
-              <AcceptMessageButton
-                account={message.address}
-                stage={message.stage}
-              />
               <SecretMessage message={message} />
             </Card.Body>
           </Card>
