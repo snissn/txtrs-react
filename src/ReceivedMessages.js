@@ -16,6 +16,7 @@ import {
 import { colorHash, contrast } from "./helpers/Web3Helper";
 import AcceptMessageButton from "./AcceptMessageButton";
 import SecretMessage from "./SecretMessage";
+const blockies = require("ethereum-blockies-png");
 
 window.db = {};
 window.rec_state = {};
@@ -125,20 +126,32 @@ export default class ReceivedMessages extends React.Component {
         {this.state.receivedMessages.map((message) => (
           <Card bsStyle="info" key={message.id} className="centeralign">
             <Card.Header as="h3">
-                {(() => {
-                  switch (message.stage) {
-                    case "1":
-                      return "Incoming Message Request From " + message.alice;
-                    case "2":
-                      return (
-                        "Waiting On Encrypted Message from " + message.alice
-                      );
-                    case "3":
-                      return "Secure Message From " + message.alice;
-                    default:
-                      return message.alice;
-                  }
-                })()}
+              <div className="media text-left text-muted pt-3">
+                <img
+                  className="bd-placeholder-img mr-2 rounded-circle"
+                  width="45"
+                  height="45"
+                  src={blockies.createDataURL({ seed: message.alice })}
+                />
+                <p className="media-body  mb-0  lh-125 ">
+                  {(() => {
+                    switch (message.stage) {
+                      case "1":
+                        return (
+                          "Encrypted Message Request From " + message.alice
+                        );
+                      case "2":
+                        return (
+                          "Waiting On Encrypted Message from " + message.alice
+                        );
+                      case "3":
+                        return "Encrypted Message From " + message.alice;
+                      default:
+                        return message.alice;
+                    }
+                  })()}
+                </p>
+              </div>
             </Card.Header>
             <Card.Body
               style={{
