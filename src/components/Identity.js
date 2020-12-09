@@ -1,5 +1,6 @@
 import React, { Component, useState, useEffect } from "react";
 import { w3 } from "../helpers/Web3Helper";
+const blockies = require("ethereum-blockies-png");
 
 export default function Identity() {
   const [account, setAccount] = useState(null);
@@ -17,5 +18,15 @@ export default function Identity() {
   if (!account) {
     return <div />;
   }
-  return <div>{account[0]}</div>;
+  return (
+    <div>
+      <img
+        className="bd-placeholder-img mr-2 rounded-circle"
+        width="45"
+        height="45"
+        src={blockies.createDataURL({ seed: account[0] })}
+      />
+      <strong>{account[0]}</strong>
+    </div>
+  );
 }
