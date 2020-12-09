@@ -22,12 +22,15 @@ export default class EncryptMessage extends React.Component {
     console.log("PROPS", props);
     this.state = {
       secret_message: "",
+      sendStatus: undefined,
     };
     this.onSendSecretMessage = this.onSendSecretMessage.bind(this);
   }
   async componentDidMount() {}
   onSendSecretMessage = async (event) => {
     event.preventDefault();
+    this.setState({ sendStatus: "Sending" });
+
     var private_message = getPrivateMessage(this.props.message.address);
     // the damn library adds the "0x04" prevailing byte so we need to slice(2) the hex rep
     //https://github.com/libertylocked/eth-ecies/blob/master/index.js#L74
@@ -102,15 +105,29 @@ export default class EncryptMessage extends React.Component {
   renderForm(message) {
     if (message.stage == "2") {
       return (
-        <form onSubmit={this.onSendSecretMessage} className="form">
+        <form onSubmit={this.onSendSecretMessage} className="form input-group">
           <input
             type="text"
             name="message"
             placeholder="Secret Message"
             value={this.state.secret_message}
             onChange={this.myChangeHandler}
+            autocomplete="off"
+            className="form-control input-sm"
+            disabled={this.state.sendStatus === "Sending"}
           />
-          <input type="submit" value="Send" />
+          <input
+            className={
+              this.state.sendStatus === "Sending"
+                ? "btn btn-sm btn-danger"
+                : "btn btn-sm btn-warning"
+            }
+            style={{ fontSize: 19 }}
+            type="submit"
+            value={this.state.sendStatus === "Sending" ? "Sharing..." : "Share"}
+            type="submit"
+            value="Send"
+          />
         </form>
       );
     }
