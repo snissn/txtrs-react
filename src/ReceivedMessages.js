@@ -30,7 +30,6 @@ export default class ReceivedMessages extends React.Component {
       errormessage: "",
       keys: {},
       message: undefined,
-      acceptButtonFlag: false,
     };
   }
 
@@ -113,10 +112,7 @@ export default class ReceivedMessages extends React.Component {
       };
 
       if (stage == "1") {
-        if (!this.state.acceptButtonFlag) {
-          this.setState({ acceptButtonFlag: true });
-          private_message_bob_stage_2(private_message_addr); // TODO remove
-        }
+        private_message_bob_stage_2(private_message_addr);
       }
       messages.push(message);
     }
